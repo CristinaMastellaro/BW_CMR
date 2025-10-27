@@ -23,10 +23,10 @@ public interface FatturaRepository extends JpaRepository<Fattura, UUID> {
     List<Fattura> findByData(LocalDate data);
 
     //filtro x anno
-    List<Fattura> findDataBetween(LocalDate start, LocalDate end);
+  //  List<Fattura> findDataBetween(LocalDate start, LocalDate end);
 
     //filtro x range di importi
 
-    List<Fattura> findImportoBetween (double min, double max);
+    //List<Fattura> findImportoBetween (double min, double max);
 
 }
