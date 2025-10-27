@@ -52,7 +52,6 @@ public class configClass {
 
         try {
             inputStream = new Scanner(file);
-            System.out.println("Input stream " + inputStream);
 
             while (inputStream.hasNext()) {
                 String singolaLineaComune = inputStream.nextLine();
