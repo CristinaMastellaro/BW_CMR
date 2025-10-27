@@ -10,6 +10,9 @@ import team5.BW_CMR.exceptions.ValidationException;
 import team5.BW_CMR.payloads.IndirizzoDTO;
 import team5.BW_CMR.services.IndirizzoService;
 
+import java.util.List;
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/address")
 public class IndirizzoController {
@@ -22,6 +25,16 @@ public class IndirizzoController {
         if (validation.hasErrors())
             throw new ValidationException(validation.getFieldErrors().stream().map(fL -> fL.getDefaultMessage()).toList());
         return iServ.saveIndirizzo(newAddress);
+    }
+
+    @GetMapping("/{indirizzoId}")
+    public Indirizzo findIndirizzoById(@PathVariable UUID indirizzoId) {
+        return iServ.findIndirizzoById(indirizzoId);
+    }
+
+    @GetMapping
+    public List<Indirizzo> findAllAddresses() {
+        return iServ.findAllAddresses();
     }
 
 }
