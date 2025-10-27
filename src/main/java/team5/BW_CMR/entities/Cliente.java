@@ -34,11 +34,11 @@ public class Cliente {
     private String logoAziendale;
 
     @ManyToOne
-    @JoinColumn(name = "indirizzo_id", nullable = false)
+    @JoinColumn(name = "indirizzo_legale_id", nullable = false)
     private Indirizzo indirizzoLegale;
 
     @ManyToOne
-    @JoinColumn(name = "indirizzo_id", nullable = false)
+    @JoinColumn(name = "indirizzo_operativo_id", nullable = false)
     private Indirizzo indirizzoOperativo;
 
 
