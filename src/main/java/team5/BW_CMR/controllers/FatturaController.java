@@ -30,68 +30,81 @@ public class FatturaController {
 
 
     @PostMapping
-    public Fattura create(@RequestBody @Valid FatturaDTO dto){
-        Cliente cliente=clienteRepository.findById(dto.clienteID()).orElseThrow(()-> new NotFoundException("cliente non trovato con id:"+ dto.clienteID()));
+    public Fattura create(@RequestBody @Valid FatturaDTO dto) {
+        Cliente cliente = clienteRepository.findById(dto.clienteID()).orElseThrow(() -> new NotFoundException("cliente non trovato con id:" + dto.clienteID()));
 
-        if(dto.importo()<=0) {
+        if (dto.importo() <= 0) {
             throw new BadRequestException("L'importo deve essere maggiore di zero");
 
         }
-                Fattura fattura= new Fattura(
-                        dto.data(),
-                        dto.importo(),
-                        dto.numero(),
-                        dto.stato(),
-                        cliente
-                );
+        Fattura fattura = new Fattura(
+                dto.data(),
+                dto.importo(),
+                dto.numero(),
+                dto.stato(),
+                cliente
+        );
         return fatturaService.saveFattura(fattura);
     }
 
 
     //Get tutte le fatture http://localhost:8888/api/fatture
     @GetMapping
-    public List<Fattura> getAll(){
+    public List<Fattura> getAll() {
         return fatturaService.findAll();
     }
 
     //get per stato http://localhost:8888/api/fatture/stato/PAGATO
 
     @GetMapping("/stato/{stato}")
-    public List <Fattura> getByStato(@PathVariable StatoFattura stato){
-        List <Fattura> result= fatturaService.findByStato(stato);
-        if(result.isEmpty()) throw new NotFoundException("Nessuna fattura trovata con stato " + stato);
+    public List<Fattura> getByStato(@PathVariable StatoFattura stato) {
+        List<Fattura> result = fatturaService.findByStato(stato);
+        if (result.isEmpty()) throw new NotFoundException("Nessuna fattura trovata con stato " + stato);
         return result;
     }
 //get per cliente http://localhost:8888/api/fatture/cliente/{clienteId}
 
-@GetMapping
-    public List <Fattura> getByCliente(@PathVariable UUID clienteId){
-        List <Fattura> result= fatturaService.findByCliente(clienteId);
-        if(result.isEmpty()) throw new NotFoundException("nassuna fattura trovata per il cliente con id " + clienteId);
+    @GetMapping("/cliente/{clienteId}")
+    public List<Fattura> getByCliente(@PathVariable UUID clienteId) {
+        List<Fattura> result = fatturaService.findByCliente(clienteId);
+        if (result.isEmpty()) throw new NotFoundException("nassuna fattura trovata per il cliente con id " + clienteId);
         return result;
-}
+    }
 
-// get per data esatta http://localhost:8888/api/fattura/data/2025-10-27
+    // get per data esatta http://localhost:8888/api/fattura/data/2025-10-27
     @GetMapping("/data/{data}")
-    public List<Fattura> getByData (@PathVariable String data){
+    public List<Fattura> getByData(@PathVariable String data) {
         LocalDate parsedDate;// x convertire la stringa in local date
         try {
             parsedDate = LocalDate.parse(data);
-        } catch(Exception e){
-            throw  new BadRequestException("Formato data non valido.");
+        } catch (Exception e) {
+            throw new BadRequestException("Formato data non valido.");
         }
-        List <Fattura> result= fatturaService.findByData(parsedDate);
-        if(result.isEmpty()) throw  new NotFoundException("Nessuna fattura trovare per la data " + data);
-        return  result;
-    }
-
-    //get per anno http://localgost:8888/api/fatture/anno/2025
-
-    @GetMapping("/anno/{anno}")
-    public List <Fattura> getByAnno (@PathVariable int anno){
-        List<Fattura> result= fatturaService.findByAnno(anno);
-        if(result.isEmpty()) throw  new NotFoundException("Nessuna fattura trovata nell'anno" + anno);
+        List<Fattura> result = fatturaService.findByData(parsedDate);
+        if (result.isEmpty()) throw new NotFoundException("Nessuna fattura trovare per la data " + data);
         return result;
     }
 
+    //get per anno http://localhost:8888/api/fatture/anno/2025
+/*
+    @GetMapping("/anno/{anno}")
+    public List<Fattura> getByAnno(@PathVariable int anno) {
+        List<Fattura> result = fatturaService.findByAnno(anno);
+        if (result.isEmpty()) throw new NotFoundException("Nessuna fattura trovata nell'anno" + anno);
+        return result;
+    }
+/* get per range di importo
+
+    @GetMapping("/importo")
+    public List<Fattura> getByImportoRange(@RequestParam double min,
+                                           @RequestParam double max) {
+        if (min < 0 || max < 0 || min > max) {
+            throw new BadRequestException("Range importi non valido");
+
+        }
+        List <Fattura> result= fatturaService.findByImportoBetween(min, max);{
+            if (result.isEmpty()) throw new NotFoundException("Nessuna fattura trovata nel range" + min +"-" + max);
+            return result;
+        }
+    }*/
 }
