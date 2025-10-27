@@ -33,7 +33,7 @@ public class JwsFilter extends OncePerRequestFilter {
         String accessToken = authHeader.substring(7);
         jwtTools.verifyToken(accessToken);
         UUID utenteId = jwtTools.extractIdFromToken(accessToken);
-        Utente found = utenteService.findById(utenteId);
+        Utente found = utenteService.getUtenteById(utenteId);
         Authentication authentication = new UsernamePasswordAuthenticationToken(found, null, found.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
         filterChain.doFilter(request, response);
