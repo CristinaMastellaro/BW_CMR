@@ -18,7 +18,7 @@ public class Cliente {
     @GeneratedValue
     @Setter(AccessLevel.NONE)
     private UUID id;
-    private long patitaIva;
+    private Long patitaIva;
     private String email;
     @Enumerated(EnumType.STRING)
     private RagioneSociale ragioneSociale;
@@ -34,15 +34,15 @@ public class Cliente {
     private String logoAziendale;
 
     @ManyToOne
-    @JoinColumn(name = "indirizzo_id", nullable = false)
+    @JoinColumn(name = "indirizzo_legale_id", nullable = false)
     private Indirizzo indirizzoLegale;
 
     @ManyToOne
-    @JoinColumn(name = "indirizzo_id", nullable = false)
+    @JoinColumn(name = "indirizzo_operativo_id", nullable = false)
     private Indirizzo indirizzoOperativo;
 
 
-    public Cliente(long patitaIva, String email, RagioneSociale ragioneSociale, LocalDate dataInserimento, LocalDate dataUltimoContatto, double fatturatoAnnuale, String pec, long telefono, String emailContatto, String nomeContatto, String cognomeContatto, long telefonoContatto, Indirizzo indirizzoLegale, Indirizzo indirizzoOperativo) {
+    public Cliente(Long patitaIva, String email, RagioneSociale ragioneSociale, LocalDate dataInserimento, LocalDate dataUltimoContatto, double fatturatoAnnuale, String pec, long telefono, String emailContatto, String nomeContatto, String cognomeContatto, long telefonoContatto, Indirizzo indirizzoLegale, Indirizzo indirizzoOperativo) {
         this.patitaIva = patitaIva;
         this.email = email;
         this.ragioneSociale = ragioneSociale;
