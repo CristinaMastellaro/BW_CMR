@@ -46,7 +46,7 @@ public class FatturaService {
         return fRepo.findByData(data);
     }
         //cerca x anno (dal primo gennaio al 31 dicembre)
-
+/*
         public List<Fattura> findByAnno(int anno){
             LocalDate start= LocalDate.of(anno,1,1);
             LocalDate end=LocalDate.of(anno, 12,31);
@@ -54,9 +54,7 @@ public class FatturaService {
         }
         //cerca x range di importo
 
-    public List <Fattura> findByImportoBetween( double min, double max){
-        return fRepo.findImportoBetween(min, max);
-    }
 
+*/
     }
 
