@@ -7,9 +7,10 @@ import org.springframework.stereotype.Repository;
 import team5.BW_CMR.entities.Utente;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
-public interface UtenteRepository extends JpaRepository<Utente, Long> {
+public interface UtenteRepository extends JpaRepository<Utente, UUID> {
 
     Optional<Utente> findByEmail(String email);
     Optional<Utente> findByUsername(String username);

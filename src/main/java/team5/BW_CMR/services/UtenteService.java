@@ -9,6 +9,7 @@ import team5.BW_CMR.repositories.UtenteRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class UtenteService {
@@ -36,12 +37,12 @@ public class UtenteService {
         return utenteRepository.findAll();
     }
 
-    public Utente getUtenteById(Long id) {
+    public Utente getUtenteById(UUID id) {
         return utenteRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("utente non trovato"));
     }
 
-    public void eliminaUtente(Long id) {
+    public void eliminaUtente(UUID id) {
         utenteRepository.deleteById(id);
     }
 
