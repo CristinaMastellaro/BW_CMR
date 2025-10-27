@@ -1,9 +1,6 @@
 package team5.BW_CMR.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,6 +9,7 @@ import lombok.Setter;
 @Entity
 @Data
 @NoArgsConstructor
+@Table(name = "Comuni")
 public class Comune {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

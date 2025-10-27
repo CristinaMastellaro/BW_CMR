@@ -2,6 +2,7 @@ package team5.BW_CMR.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -13,7 +14,8 @@ import java.util.Scanner;
 @Configuration
 public class configClass {
 
-    @Bean
+    @Bean(name = "csvComuni")
+    @Scope("prototype")
     public List<List<String>> csvComuni() {
         String fileName = "src/main/java/team5/BW_CMR/csv/comuni-italiani.csv";
         File file = new File(fileName);
@@ -37,5 +39,32 @@ public class configClass {
         }
         listaComuni.removeFirst();
         return listaComuni;
+    }
+
+    @Bean(name = "csvProvince")
+    @Scope("prototype")
+    public List<List<String>> csvProvince() {
+        String fileName = "src/main/java/team5/BW_CMR/csv/province-italiane.csv";
+        File file = new File(fileName);
+
+        List<List<String>> listaProvince = new ArrayList<>();
+        Scanner inputStream;
+
+        try {
+            inputStream = new Scanner(file);
+            System.out.println("Input stream " + inputStream);
+
+            while (inputStream.hasNext()) {
+                String singolaLineaComune = inputStream.nextLine();
+                String[] province = singolaLineaComune.split(";");
+                listaProvince.add(Arrays.asList(province));
+            }
+
+            inputStream.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        listaProvince.removeFirst();
+        return listaProvince;
     }
 }
