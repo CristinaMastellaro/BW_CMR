@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import team5.BW_CMR.entities.Indirizzo;
+import team5.BW_CMR.payloads.IndirizzoDTO;
 import team5.BW_CMR.repositories.IndirizzoRepository;
 
 @Service
@@ -12,7 +13,7 @@ public class IndirizzoService {
     @Autowired
     private IndirizzoRepository iRepo;
 
-    public Indirizzo saveIndirizzo(Indirizzo newIndirizzo) {
-        
+    public Indirizzo saveIndirizzo(IndirizzoDTO newIndirizzo) {
+
     }
 }
