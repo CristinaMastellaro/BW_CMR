@@ -4,6 +4,7 @@ import jakarta.validation.constraints.*;
 import team5.BW_CMR.entities.RagioneSociale;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 public record ClienteDTO(
         @NotNull
@@ -46,5 +47,12 @@ public record ClienteDTO(
         String cognomeContatto,
 
         @NotNull
-        long telefonoContatto
+        long telefonoContatto,
+
+        @NotNull
+        UUID indirizzoLegaleId,
+
+        @NotNull
+        UUID indirizzoOperativoId
+
 ) {}

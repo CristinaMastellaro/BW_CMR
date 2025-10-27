@@ -18,7 +18,7 @@ public class Cliente {
     @GeneratedValue
     @Setter(AccessLevel.NONE)
     private UUID id;
-    private long patitaIva;
+    private Long partitaIva;
     private String email;
     @Enumerated(EnumType.STRING)
     private RagioneSociale ragioneSociale;
@@ -42,8 +42,8 @@ public class Cliente {
     private Indirizzo indirizzoOperativo;
 
 
-    public Cliente(long patitaIva, String email, RagioneSociale ragioneSociale, LocalDate dataInserimento, LocalDate dataUltimoContatto, double fatturatoAnnuale, String pec, long telefono, String emailContatto, String nomeContatto, String cognomeContatto, long telefonoContatto, Indirizzo indirizzoLegale, Indirizzo indirizzoOperativo) {
-        this.patitaIva = patitaIva;
+    public Cliente(Long partitaIva, String email, RagioneSociale ragioneSociale, LocalDate dataInserimento, LocalDate dataUltimoContatto, double fatturatoAnnuale, String pec, long telefono, String emailContatto, String nomeContatto, String cognomeContatto, long telefonoContatto, Indirizzo indirizzoLegale, Indirizzo indirizzoOperativo) {
+        this.partitaIva = partitaIva;
         this.email = email;
         this.ragioneSociale = ragioneSociale;
         this.dataInserimento = dataInserimento;

@@ -1,6 +1,7 @@
 package team5.BW_CMR.entities;
 
 
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
