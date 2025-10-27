@@ -1,6 +1,8 @@
 package team5.BW_CMR.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import team5.BW_CMR.entities.Fattura;
 import team5.BW_CMR.entities.StatoFattura;
@@ -23,10 +25,12 @@ public interface FatturaRepository extends JpaRepository<Fattura, UUID> {
     List<Fattura> findByData(LocalDate data);
 
     //filtro x anno
-  //  List<Fattura> findDataBetween(LocalDate start, LocalDate end);
-
+  @Query("SELECT f FROM Fattura f WHERE f.data BETWEEN : start AND :end")
+    List<Fattura> findByDataBetween(@Param("start")LocalDate start,
+                                    @Param("end")LocalDate end);
     //filtro x range di importi
-
-    //List<Fattura> findImportoBetween (double min, double max);
+@Query("SELECT f FROM Fattura f WHERE f.importo BETWEEN :min AND :max")
+    List<Fattura> findByImportoBetween(@Param("min")double min,
+                                       @Param("max")double max);
 
 }

@@ -84,25 +84,43 @@ public class FatturaController {
     }
 
     //get per anno http://localhost:8888/api/fatture/anno/2025
-/*
-    @GetMapping("/anno/{anno}")
-    public List<Fattura> getByAnno(@PathVariable int anno) {
-        List<Fattura> result = fatturaService.findByAnno(anno);
-        if (result.isEmpty()) throw new NotFoundException("Nessuna fattura trovata nell'anno" + anno);
-        return result;
+
+    @GetMapping("/date-range")
+    public List<Fattura> getFatturaByDataRange(
+            @RequestParam("start") LocalDate start,
+            @RequestParam("end") LocalDate end) {
+
+        List<Fattura> fatture = fatturaService.findByDataBetween(start, end);
+
+        if (fatture.isEmpty()) {
+            throw new NotFoundException("Nessuna fattura trovata tra " + start + " e " + end);
+        }
+
+        return fatture;
     }
-/* get per range di importo
 
-    @GetMapping("/importo")
-    public List<Fattura> getByImportoRange(@RequestParam double min,
-                                           @RequestParam double max) {
-        if (min < 0 || max < 0 || min > max) {
-            throw new BadRequestException("Range importi non valido");
+    //get per importo
+    @GetMapping("/importo-range")
+    public List<Fattura> getFatturaByImportoRange(
+            @RequestParam("min") double min,
+            @RequestParam("max") double max) {
 
+        List<Fattura> fatture = fatturaService.findByImportoBetween(min, max);
+
+        if (fatture.isEmpty()) {
+            throw new NotFoundException("Nessuna fattura trovata con importi tra " + min + " e " + max);
         }
-        List <Fattura> result= fatturaService.findByImportoBetween(min, max);{
-            if (result.isEmpty()) throw new NotFoundException("Nessuna fattura trovata nel range" + min +"-" + max);
-            return result;
+
+        return fatture;
+    }
+
+
+
+        //delete
+        @DeleteMapping("/{id}")
+        public void deleteFattura(@PathVariable UUID id) {
+            fatturaService.deleteFattura(id);
         }
-    }*/
-}
+
+    }
+
