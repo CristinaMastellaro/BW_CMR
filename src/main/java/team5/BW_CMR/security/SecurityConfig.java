@@ -24,7 +24,7 @@ public class SecurityConfig {
         httpSecurity.formLogin(formLogin -> formLogin.disable());
         httpSecurity.csrf((csrf -> csrf.disable()));
         httpSecurity.sessionManagement((sessions -> sessions.sessionCreationPolicy(SessionCreationPolicy.STATELESS)));
-        //httpSecurity.authorizeHttpRequests(req -> req.requestMatchers("/auth/**").permitAll().anyRequest().authenticated());
+       httpSecurity.authorizeHttpRequests(req -> req.requestMatchers("/**").permitAll().anyRequest().authenticated());
         httpSecurity.addFilterBefore(jwsFilter, UsernamePasswordAuthenticationFilter.class);
         return httpSecurity.build();
     }
