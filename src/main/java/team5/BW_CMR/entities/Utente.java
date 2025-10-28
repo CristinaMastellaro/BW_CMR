@@ -15,7 +15,7 @@ import java.util.*;
 @Table(name = "utenti")
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
+
 public class Utente implements UserDetails {
 
     @Id
@@ -50,23 +50,21 @@ public class Utente implements UserDetails {
     )
     private Set<Ruolo> ruoli = new HashSet<>();
 
-//    private List<Ruolo> ruoli ;
-
-//    public void addRuolo(Ruolo ruolo) {
-//        this.ruoli.add(ruolo);
-//    }
-
-//    @Override
-//    public Collection<? extends GrantedAuthority> getAuthorities() {
-//        List<SimpleGrantedAuthority> simpleRuolo = new ArrayList<>();
-//        this.ruoli.forEach(Ruolo -> {
-//            simpleRuolo.add(new SimpleGrantedAuthority(Ruolo.name()));
-//        });
-//        return simpleRuolo;
-//    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return ruoli.stream().map(ruolo -> new SimpleGrantedAuthority("ROLE_" + ruolo.getNome())).toList();
     }
+
+    @Override
+    public boolean isAccountNonExpired() {return true;}
+
+    @Override
+    public boolean isAccountNonLocked() {return true;}
+
+    @Override
+    public boolean isCredentialsNonExpired() {return true;}
+
+    @Override
+    public boolean isEnabled() {return true;}
 }

@@ -2,6 +2,7 @@ package team5.BW_CMR.controllers;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import team5.BW_CMR.entities.Ruolo;
 import team5.BW_CMR.entities.Utente;
+import team5.BW_CMR.payloads.UtenteDTO;
 import team5.BW_CMR.repositories.RuoloRepository;
 import team5.BW_CMR.security.JwtTools;
 import team5.BW_CMR.services.UtenteService;
@@ -49,9 +51,9 @@ public class AuthController {
 
         Authentication auth = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(username, password)
-                );
+        );
 
-        Utente utente =(Utente) auth.getPrincipal();
+        Utente utente = (Utente) auth.getPrincipal();
         String token = jwtTools.createToken(utente);
 
         return ResponseEntity.ok(Map.of(
@@ -63,18 +65,34 @@ public class AuthController {
 
     //registrazione
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody Utente nuovoUtente) {
+    public ResponseEntity<?> register(@RequestBody UtenteDTO nuovoUtente, Authentication auth) {
+
+        // Controllo per creare admin
+        if (Boolean.TRUE.equals(nuovoUtente.isAdmin())) {
+            if (auth == null) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                        .body("Autenticazione necessaria per creare un admin");
+            }
+
+            Utente requester = (Utente) auth.getPrincipal();
+            boolean isAdmin = requester.getAuthorities().stream()
+                    .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+
+            if (!isAdmin) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                        .body("Solo un admin può creare un altro admin");
+            }
+        }
+
+        // Salva utente (user di default o admin se richiesto)
         Utente utente = utenteService.salvaUtente(nuovoUtente);
 
-        //ruolo di default user
-        Ruolo userRole = ruoloRepository.findByNome("USER")
-                .orElseGet(() -> ruoloRepository.save(new Ruolo("USER")));
-        Set<Ruolo> ruoli = new HashSet<>();
-        ruoli.add(userRole);
-        utente.setRuoli(ruoli);
-        utente.setPassword(passwordEncoder.encode(utente.getPassword()));
-        utenteService.salvaUtente(utente);
-
-        return ResponseEntity.ok(Map.of("message", "utente registrato"));
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(Map.of(
+                        "message", "Utente registrato",
+                        "username", utente.getUsername(),
+                        "ruoli", utente.getRuoli()
+                ));
     }
 }
+
