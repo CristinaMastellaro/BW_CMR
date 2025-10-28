@@ -5,6 +5,8 @@ package team5.BW_CMR.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.UUID;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -15,7 +17,7 @@ public class Ruolo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
-    private Long id;
+    private long id;
 
 //    @Enumerated(EnumType.STRING)
     @Column(nullable = false)

@@ -65,34 +65,36 @@ public class AuthController {
 
     //registrazione
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody UtenteDTO nuovoUtente, Authentication auth) {
+    public ResponseEntity<?> register(@RequestBody UtenteDTO nuovoUtente) {
+
 
         // Controllo per creare admin
-        if (Boolean.TRUE.equals(nuovoUtente.isAdmin())) {
-            if (auth == null) {
-                return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                        .body("Autenticazione necessaria per creare un admin");
-            }
+       // if (Boolean.TRUE.equals(nuovoUtente.isAdmin())) {
+//            if (auth == null) {
+//                return ResponseEntity.status(HttpStatus.FORBIDDEN)
+//                        .body("Autenticazione necessaria per creare un admin");
+//            }
 
-            Utente requester = (Utente) auth.getPrincipal();
-            boolean isAdmin = requester.getAuthorities().stream()
-                    .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+//            Utente requester = (Utente) auth.getPrincipal();
+//            boolean isAdmin = requester.getAuthorities().stream()
+//                    .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+//
+//            if (!isAdmin) {
+//                return ResponseEntity.status(HttpStatus.FORBIDDEN)
+//                        .body("Solo un admin può creare un altro admin");
+//            }
+//        }
 
-            if (!isAdmin) {
-                return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                        .body("Solo un admin può creare un altro admin");
-            }
+            // Salva utente (user di default o admin se richiesto)
+            Utente utente = utenteService.salvaUtente(nuovoUtente);
+
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body(Map.of(
+                            "message", "Utente registrato",
+                            "username", utente.getUsername(),
+                            "ruoli", utente.getRuoli()
+                    ));
         }
-
-        // Salva utente (user di default o admin se richiesto)
-        Utente utente = utenteService.salvaUtente(nuovoUtente);
-
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(Map.of(
-                        "message", "Utente registrato",
-                        "username", utente.getUsername(),
-                        "ruoli", utente.getRuoli()
-                ));
     }
-}
+
 

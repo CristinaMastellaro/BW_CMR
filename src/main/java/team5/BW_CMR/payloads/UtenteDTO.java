@@ -12,6 +12,6 @@ public class UtenteDTO {
     private String password;
     private String firstname;
     private String lastname;
-    private String avatarUrl;
-    private boolean admin;
+  //  private String avatarUrl;
+    //private boolean admin;
 }

@@ -50,6 +50,17 @@ public class Utente implements UserDetails {
     )
     private Set<Ruolo> ruoli = new HashSet<>();
 
+    public Utente(String username, String email, String password, String firstname, String lastname,Ruolo ruoli) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.avatarUrl = "https://ui-avatars.com/api/?name" + firstname + "+" + lastname;
+        this.ruoli.add(ruoli);
+
+        //this.ruoli = setRuoli();
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

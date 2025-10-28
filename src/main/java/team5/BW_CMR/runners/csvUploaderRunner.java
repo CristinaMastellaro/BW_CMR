@@ -2,11 +2,17 @@ package team5.BW_CMR.runners;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import team5.BW_CMR.entities.Comune;
 import team5.BW_CMR.entities.Provincia;
+import team5.BW_CMR.entities.Ruolo;
+import team5.BW_CMR.entities.Utente;
+import team5.BW_CMR.payloads.RuoloDTO;
 import team5.BW_CMR.services.ComuneService;
 import team5.BW_CMR.services.ProvinciaService;
+import team5.BW_CMR.services.RuoloService;
+import team5.BW_CMR.services.UtenteService;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -20,6 +26,10 @@ public class csvUploaderRunner implements CommandLineRunner {
     private ComuneService cServ;
     @Autowired
     private ProvinciaService pServ;
+    @Autowired
+    private RuoloService ruoloService;
+    @Autowired
+    private UtenteService utenteService;
 
     @Override
     public void run(String... args) throws Exception {
@@ -102,5 +112,14 @@ public class csvUploaderRunner implements CommandLineRunner {
             }
             System.out.println("DB UPLOADED!");
         }
+        if (ruoloService.findAll().isEmpty()) {
+            RuoloDTO user = new RuoloDTO("USER");
+            RuoloDTO admin = new RuoloDTO("ADMIN");
+            ruoloService.saveRuolo(user);
+            ruoloService.saveRuolo(admin);
+        }
+
+        if(utenteService.findByRuolo())
+
     }
 }

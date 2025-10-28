@@ -23,13 +23,16 @@ public class UtenteService {
     private UtenteRepository utenteRepository;
 
     @Autowired
-    private RuoloRepository ruoloRepository;
+    private RuoloService ruoloService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Autowired
     private Cloudinary avtarUploader;
+
+    @Autowired
+    private RuoloRepository ruoloRepository;
 
     private static final long MAX_SIZE = 5 * 948 * 948;
     private static final Set<String> ALLOWED_TYPES = Set.of(
@@ -40,28 +43,35 @@ public class UtenteService {
 
     //crea nuovo utente
     public Utente salvaUtente(UtenteDTO dto) {
-        Utente utente = new Utente();
-        utente.setUsername(dto.getUsername());
-        utente.setEmail(dto.getEmail());
-        utente.setPassword(passwordEncoder.encode(dto.getPassword()));
-        utente.setFirstname(dto.getFirstname());
-        utente.setLastname(dto.getLastname());
-        utente.setAvatarUrl(dto.getAvatarUrl());
+        Ruolo ruolo = ruoloService.getRuoloById(1);
+        Utente utente = new Utente(dto.getUsername(), dto.getEmail(),passwordEncoder.encode(dto.getPassword()), dto.getFirstname(), dto.getLastname() , ruolo );
+//        utente.setUsername(dto.getUsername());
+//        utente.setEmail(dto.getEmail());
+//        utente.setPassword(passwordEncoder.encode(dto.getPassword()));
+//        utente.setFirstname(dto.getFirstname());
+//        utente.setLastname(dto.getLastname());
+       // utente.setAvatarUrl(dto.getAvatarUrl());
 
-        //assegna ruolo
-        Ruolo ruolo;
-        if(dto.isAdmin()) {
-            ruolo = ruoloRepository.findByNome("ADMIN")
-                    .orElseGet(() -> ruoloRepository.save(new Ruolo("ADMIN")));
-        } else {
-            ruolo = ruoloRepository.findByNome("USER")
-                    .orElseGet(() -> ruoloRepository.save(new Ruolo("USER")));
-        }
 
-        utente.getRuoli().add(ruolo);
 
         return utenteRepository.save(utente);
     }
+
+
+//        //assegna ruolo
+//        Ruolo ruolo;
+//        if(dto.isAdmin()) {
+//            ruolo = ruoloRepository.findByNome("ADMIN")
+//                    .orElseGet(() -> ruoloRepository.save(new Ruolo("ADMIN")));
+//        } else {
+//            ruolo = ruoloRepository.findByNome("USER")
+//                    .orElseGet(() -> ruoloRepository.save(new Ruolo("USER")));
+//        }
+//
+//        utente.getRuoli().add(ruolo);
+//
+//        return utenteRepository.save(utente);
+//    }
 
     public List<Utente> getAllUtenti() {
         return utenteRepository.findAll();
@@ -84,7 +94,9 @@ public class UtenteService {
     public Utente promuoviAdmin(UUID id) {
         Utente utente = getUtenteById(id);
         Ruolo adminRole = ruoloRepository.findByNome("ADMIN").orElseGet(() -> ruoloRepository.save(new Ruolo("ADMIN")));
-        utente.getRuoli().add(adminRole);
+       Set<Ruolo> ruoli = utente.getRuoli();
+       ruoli.add(adminRole);
+       utente.setRuoli(ruoli);
         return utenteRepository.save(utente);
     }
 
@@ -104,4 +116,5 @@ public class UtenteService {
         this.utenteRepository.save(found);
         return found;
     }
+
 }
