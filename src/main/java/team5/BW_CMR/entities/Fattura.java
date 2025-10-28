@@ -21,17 +21,14 @@ public class Fattura {
     private LocalDate data;
     private double importo;
     private long numero;
-    @Enumerated(EnumType.STRING)
-    private StatoFattura stato;
-
-    @ManyToOne
+@ManyToOne
     private Cliente cliente;
 
-    public Fattura(LocalDate data, double importo, long numero, StatoFattura stato, Cliente cliente) {
+    public Fattura(LocalDate data, double importo, long numero, Cliente cliente) {
         this.data = data;
         this.importo = importo;
         this.numero = numero;
-        this.stato = stato;
         this.cliente = cliente;
     }
+
 }
