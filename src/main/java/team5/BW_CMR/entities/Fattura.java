@@ -31,39 +31,4 @@ public class Fattura {
         this.cliente = cliente;
     }
 
-    public LocalDate getData() {
-        return data;
-    }
-
-    public void setData(LocalDate data) {
-        this.data = data;
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public double getImporto() {
-        return importo;
-    }
-
-    public void setImporto(double importo) {
-        this.importo = importo;
-    }
-
-    public long getNumero() {
-        return numero;
-    }
-
-    public void setNumero(long numero) {
-        this.numero = numero;
-    }
-
-    public Cliente getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
-    }
 }
