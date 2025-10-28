@@ -25,7 +25,7 @@ public class csvUploaderRunner implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
         // Popoliamo la tabella "Province" del db
-        if (pServ.findAllProvince().isEmpty()) {
+        if (pServ.findAllProvince(0, 20, "regione").isEmpty()) {
             String fileName = "src/main/java/team5/BW_CMR/csv/province-italiane.csv";
             File file = new File(fileName);
 
@@ -58,7 +58,7 @@ public class csvUploaderRunner implements CommandLineRunner {
         }
 
         // Popoliamo la tabella "Comuni" del db
-        if (cServ.findAllComuni().isEmpty()) {
+        if (cServ.findAllComuni(0, 30, "id").isEmpty()) {
             String fileName = "src/main/java/team5/BW_CMR/csv/comuni-italiani.csv";
             File file = new File(fileName);
             Scanner inputStream;
