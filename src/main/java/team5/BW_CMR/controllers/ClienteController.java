@@ -78,14 +78,19 @@ public class ClienteController {
         return clienteService.findAllOrderByDataUltimoContatto(page, size);
     }
     //GET ALL ORDINA DATA INSERIMENTO
-    @GetMapping("/sortBy-ultimoContatto")
+    @GetMapping("/sortBy-dataInserimento")
     public Page<Cliente> getAllOrderByDataInserimento(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
         return clienteService.findAllOrderByDataInserimento(page, size);
     }
     //GET ALL ORDINA FATTURATO ANNUALE
-    @GetMapping("/sortBy-ultimoContatto")
+    @GetMapping("/sortBy-fatturatoAnnuale")
     public Page<Cliente> getAllOrderByFatturatoAnnuale(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
         return clienteService.findAllOrderByFatturatoAnnuale(page, size);
+    }
+    //GET ALL ORDINA FATTURATO ANNUALE
+    @GetMapping("/sortBy-nomeContatto")
+    public Page<Cliente>findAllOrderByNomeContatto(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+        return clienteService.findAllOrderByNomeContatto(page, size);
     }
 
 }

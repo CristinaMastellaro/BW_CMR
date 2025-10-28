@@ -136,6 +136,11 @@ public class ClienteService {
         Pageable pageable = PageRequest.of(page, size, Sort.by("fatturatoAnnuale").descending());
         return clienteRepository.findAll(pageable);
     }
+    public Page<Cliente> findAllOrderByNomeContatto(int page, int size) {
+        if (size > 50) size = 50;
+        Pageable pageable = PageRequest.of(page, size, Sort.by("nomeContatto").descending());
+        return clienteRepository.findAll(pageable);
+    }
 
 
 }
