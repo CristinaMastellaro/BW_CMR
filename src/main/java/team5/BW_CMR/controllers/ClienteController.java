@@ -15,7 +15,7 @@ import team5.BW_CMR.services.ClienteService;
 import java.util.List;
 import java.util.UUID;
 @RestController
-@RequestMapping("/api/clienti")
+@RequestMapping("/clienti")
 public class ClienteController {
     @Autowired
     private ClienteService clienteService;
@@ -55,40 +55,40 @@ public class ClienteController {
     }
 
     // GET ALL = FATTURATO ANNUALE
-    @GetMapping("/fatturato")
+    @GetMapping("/filtra/fatturato")
     public Page<Cliente> getByFatturatoAnnuale(@RequestParam double fatturato, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String sortBy) {
         return clienteService.findByFatturatoAnnuale(fatturato, page, size, sortBy);
     }
 
     //GET ALL = DATA INSERIMENTO
-    @GetMapping("/data")
+    @GetMapping("/filtra/data")
     public Page<Cliente> getByDataInserimento(@RequestParam String data, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String sortBy) {
         return clienteService.findByDataInserimento(data, page, size, sortBy);
     }
 
     // GET ALL = DATA ULTIMO CONTATTO
-    @GetMapping("/data-ultimo-contatto")
+    @GetMapping("/filtra/ultimoContatto")
     public Page<Cliente> getByDataUltimoContatto(@RequestParam String data, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String sortBy) {
         return clienteService.findByDataUltimoContatto(data, page, size, sortBy);
     }
 
     //GET ALL ORDINA ULTIMO CONTATTO
-    @GetMapping("/sortBy-ultimoContatto")
+    @GetMapping("/ordina/ultimoContatto")
     public Page<Cliente> getAllOrderByDataUltimoContatto(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
         return clienteService.findAllOrderByDataUltimoContatto(page, size);
     }
     //GET ALL ORDINA DATA INSERIMENTO
-    @GetMapping("/sortBy-dataInserimento")
+    @GetMapping("/ordina/dataInserimento")
     public Page<Cliente> getAllOrderByDataInserimento(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
         return clienteService.findAllOrderByDataInserimento(page, size);
     }
     //GET ALL ORDINA FATTURATO ANNUALE
-    @GetMapping("/sortBy-fatturatoAnnuale")
+    @GetMapping("/ordina/fatturatoAnnuale")
     public Page<Cliente> getAllOrderByFatturatoAnnuale(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
         return clienteService.findAllOrderByFatturatoAnnuale(page, size);
     }
-    //GET ALL ORDINA FATTURATO ANNUALE
-    @GetMapping("/sortBy-nomeContatto")
+    //GET ALL ORDINA NOME CONTATTI
+    @GetMapping("/ordina/nomeContatto")
     public Page<Cliente>findAllOrderByNomeContatto(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
         return clienteService.findAllOrderByNomeContatto(page, size);
     }
