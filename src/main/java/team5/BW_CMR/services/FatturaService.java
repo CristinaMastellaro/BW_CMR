@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import team5.BW_CMR.entities.Fattura;
-import team5.BW_CMR.entities.StatoFattura;
 import team5.BW_CMR.exceptions.NotFoundException;
 import team5.BW_CMR.repositories.FatturaRepository;
 
@@ -31,9 +30,6 @@ public class FatturaService {
 
     //cerca per stato
 
-    public List<Fattura> findByStato(StatoFattura stato) {
-        return fRepo.findByStato(stato);
-    }
 
     //cerca x cliente
 
