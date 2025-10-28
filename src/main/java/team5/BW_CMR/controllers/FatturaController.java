@@ -25,7 +25,7 @@ public class FatturaController {
     @Autowired
     private ClienteRepository clienteRepository;
 
-    //metodo post  http://localhost:8888/api/fatture
+    //metodo post  http://localhost:3001/api/fatture
 
 
     @PostMapping
@@ -46,7 +46,7 @@ public class FatturaController {
     }
 
 
-    //Get tutte le fatture http://localhost:8888/api/fatture
+    //Get tutte le fatture http://localhost:3001/api/fatture
     @GetMapping
     public List<Fattura> getAll() {
         return fatturaService.findAll();
@@ -54,7 +54,7 @@ public class FatturaController {
 
 
 
-//get per cliente http://localhost:8888/api/fatture/cliente/{clienteId}
+//get per cliente http://localhost:3001/api/fatture/cliente/{clienteId}
 
     @GetMapping("/cliente/{clienteId}")
     public List<Fattura> getByCliente(@PathVariable UUID clienteId) {
@@ -63,7 +63,7 @@ public class FatturaController {
         return result;
     }
 
-    // get per data esatta http://localhost:8888/api/fattura/data/2025-10-27
+    // get per data esatta http://localhost:3001/api/fattura/data/2025-10-27
     @GetMapping("/data/{data}")
     public List<Fattura> getByData(@PathVariable String data) {
         LocalDate parsedDate;// x convertire la stringa in local date
@@ -77,7 +77,7 @@ public class FatturaController {
         return result;
     }
 
-    //get per anno http://localhost:8888/api/fatture/anno/2025
+    //get per anno http://localhost:3001/api/fatture/anno/2025
 
     @GetMapping("/date-range")
     public List<Fattura> getFatturaByDataRange(
