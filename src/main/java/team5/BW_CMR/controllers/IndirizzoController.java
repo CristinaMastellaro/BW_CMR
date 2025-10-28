@@ -2,6 +2,7 @@ package team5.BW_CMR.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +22,7 @@ public class IndirizzoController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAuthority('ADMIN')")
     public Indirizzo saveAddress(@RequestBody @Validated IndirizzoDTO newAddress, BindingResult validation) {
         if (validation.hasErrors())
             throw new ValidationException(validation.getFieldErrors().stream().map(fL -> fL.getDefaultMessage()).toList());
@@ -35,6 +37,13 @@ public class IndirizzoController {
     @GetMapping
     public List<Indirizzo> findAllAddresses() {
         return iServ.findAllAddresses();
+    }
+
+    @DeleteMapping("/{indirizzoId}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteIndirizzoById(@PathVariable UUID indirizzoId) {
+        iServ.deleteIndirizzo(indirizzoId);
     }
 
 }

@@ -40,4 +40,12 @@ public class IndirizzoService {
     public List<Indirizzo> findAllAddresses() {
         return iRepo.findAll();
     }
+
+    public void deleteIndirizzo(UUID id) {
+        Indirizzo indirizzo = findIndirizzoById(id);
+
+        iRepo.delete(indirizzo);
+
+        log.info("L'indirizzo è stato cancellato!");
+    }
 }

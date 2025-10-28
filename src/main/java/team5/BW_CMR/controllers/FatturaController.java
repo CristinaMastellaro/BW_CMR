@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import team5.BW_CMR.entities.Cliente;
 import team5.BW_CMR.entities.Fattura;
-import team5.BW_CMR.entities.StatoFattura;
 import team5.BW_CMR.exceptions.BadRequestException;
 import team5.BW_CMR.exceptions.NotFoundException;
 import team5.BW_CMR.payloads.FatturaDTO;
@@ -41,7 +40,6 @@ public class FatturaController {
                 dto.data(),
                 dto.importo(),
                 dto.numero(),
-                dto.stato(),
                 cliente
         );
         return fatturaService.saveFattura(fattura);
@@ -54,14 +52,8 @@ public class FatturaController {
         return fatturaService.findAll();
     }
 
-    //get per stato http://localhost:8888/api/fatture/stato/PAGATO
 
-    @GetMapping("/stato/{stato}")
-    public List<Fattura> getByStato(@PathVariable StatoFattura stato) {
-        List<Fattura> result = fatturaService.findByStato(stato);
-        if (result.isEmpty()) throw new NotFoundException("Nessuna fattura trovata con stato " + stato);
-        return result;
-    }
+
 //get per cliente http://localhost:8888/api/fatture/cliente/{clienteId}
 
     @GetMapping("/cliente/{clienteId}")
@@ -92,13 +84,13 @@ public class FatturaController {
             @RequestParam("start") LocalDate start,
             @RequestParam("end") LocalDate end) {
 
-        List<Fattura> fatture = fatturaService.findByDataBetween(start, end);
+        List<Fattura> result = fatturaService.findByDataBetween(start, end);
 
-        if (fatture.isEmpty()) {
+        if (result.isEmpty()) {
             throw new NotFoundException("Nessuna fattura trovata tra " + start + " e " + end);
         }
 
-        return fatture;
+        return result;
     }
 
     //get per importo
@@ -107,13 +99,13 @@ public class FatturaController {
             @RequestParam("min") double min,
             @RequestParam("max") double max) {
 
-        List<Fattura> fatture = fatturaService.findByImportoBetween(min, max);
+        List<Fattura> result = fatturaService.findByImportoBetween(min, max);
 
-        if (fatture.isEmpty()) {
+        if (result.isEmpty()) {
             throw new NotFoundException("Nessuna fattura trovata con importi tra " + min + " e " + max);
         }
 
-        return fatture;
+        return result;
     }
 
 

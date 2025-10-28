@@ -6,4 +6,5 @@ import team5.BW_CMR.entities.Provincia;
 
 @Repository
 public interface ProvinciaRepository extends JpaRepository<Provincia, Long> {
+    Provincia findByProvincia(String provincia);
 }

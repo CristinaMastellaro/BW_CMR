@@ -7,15 +7,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import team5.BW_CMR.entities.Cliente;
 import team5.BW_CMR.exceptions.ValidationException;
 import team5.BW_CMR.payloads.ClienteDTO;
 import team5.BW_CMR.services.ClienteService;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 @RestController
-@RequestMapping("/api/clienti")
+@RequestMapping("/clienti")
 public class ClienteController {
     @Autowired
     private ClienteService clienteService;
@@ -55,42 +57,47 @@ public class ClienteController {
     }
 
     // GET ALL = FATTURATO ANNUALE
-    @GetMapping("/fatturato")
+    @GetMapping("/filtraFatturato")
     public Page<Cliente> getByFatturatoAnnuale(@RequestParam double fatturato, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String sortBy) {
         return clienteService.findByFatturatoAnnuale(fatturato, page, size, sortBy);
     }
 
     //GET ALL = DATA INSERIMENTO
-    @GetMapping("/data")
+    @GetMapping("/filtraData")
     public Page<Cliente> getByDataInserimento(@RequestParam String data, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String sortBy) {
         return clienteService.findByDataInserimento(data, page, size, sortBy);
     }
 
     // GET ALL = DATA ULTIMO CONTATTO
-    @GetMapping("/data-ultimo-contatto")
+    @GetMapping("/filtraUltimoContatto")
     public Page<Cliente> getByDataUltimoContatto(@RequestParam String data, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String sortBy) {
         return clienteService.findByDataUltimoContatto(data, page, size, sortBy);
     }
 
     //GET ALL ORDINA ULTIMO CONTATTO
-    @GetMapping("/sortBy-ultimoContatto")
+    @GetMapping("/ordina/dataUltimoContatto")
     public Page<Cliente> getAllOrderByDataUltimoContatto(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
         return clienteService.findAllOrderByDataUltimoContatto(page, size);
     }
     //GET ALL ORDINA DATA INSERIMENTO
-    @GetMapping("/sortBy-dataInserimento")
+    @GetMapping("/ordina/dataInserimento")
     public Page<Cliente> getAllOrderByDataInserimento(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
         return clienteService.findAllOrderByDataInserimento(page, size);
     }
     //GET ALL ORDINA FATTURATO ANNUALE
-    @GetMapping("/sortBy-fatturatoAnnuale")
+    @GetMapping("/ordina/fatturatoAnnuale")
     public Page<Cliente> getAllOrderByFatturatoAnnuale(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
         return clienteService.findAllOrderByFatturatoAnnuale(page, size);
     }
-    //GET ALL ORDINA FATTURATO ANNUALE
-    @GetMapping("/sortBy-nomeContatto")
+    //GET ALL ORDINA NOME CONTATTI
+    @GetMapping("/ordina/nomeContatto")
     public Page<Cliente>findAllOrderByNomeContatto(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
         return clienteService.findAllOrderByNomeContatto(page, size);
     }
 
+    //PATCH LOGO
+    @PatchMapping("/{id}/upload")
+    public Cliente uploadLogo(@PathVariable UUID id, @RequestParam("logoAziendale")MultipartFile file) throws IOException {
+        return this.clienteService.uploadLogo(file, id);
+    }
 }
