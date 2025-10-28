@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import team5.BW_CMR.entities.Cliente;
 import team5.BW_CMR.entities.Fattura;
-import team5.BW_CMR.entities.StatoFattura;
 import team5.BW_CMR.exceptions.BadRequestException;
 import team5.BW_CMR.exceptions.NotFoundException;
 import team5.BW_CMR.payloads.FatturaDTO;
@@ -41,7 +40,6 @@ public class FatturaController {
                 dto.data(),
                 dto.importo(),
                 dto.numero(),
-                dto.stato(),
                 cliente
         );
         return fatturaService.saveFattura(fattura);
@@ -54,14 +52,8 @@ public class FatturaController {
         return fatturaService.findAll();
     }
 
-    //get per stato http://localhost:8888/api/fatture/stato/PAGATO
 
-    @GetMapping("/stato/{stato}")
-    public List<Fattura> getByStato(@PathVariable StatoFattura stato) {
-        List<Fattura> result = fatturaService.findByStato(stato);
-        if (result.isEmpty()) throw new NotFoundException("Nessuna fattura trovata con stato " + stato);
-        return result;
-    }
+
 //get per cliente http://localhost:8888/api/fatture/cliente/{clienteId}
 
     @GetMapping("/cliente/{clienteId}")
