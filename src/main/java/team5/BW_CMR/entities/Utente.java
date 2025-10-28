@@ -42,26 +42,31 @@ public class Utente implements UserDetails {
     @Column
     private String avatarUrl;
 
-//    @ManyToMany
-//    @JoinTable(
-//            name = "ruoli_utente",
-//            joinColumns = @JoinColumn(name = "utente_id"),
-//            inverseJoinColumns = @JoinColumn(name = "Ruolo_id")
-//    )
-//    private Set<Ruolo> ruoli = new HashSet<>();
+    @ManyToMany
+    @JoinTable(
+            name = "ruoli_utente",
+            joinColumns = @JoinColumn(name = "utente_id"),
+            inverseJoinColumns = @JoinColumn(name = "Ruolo_id")
+    )
+    private Set<Ruolo> ruoli = new HashSet<>();
 
-    private List<Ruolo> ruoli ;
+//    private List<Ruolo> ruoli ;
 
 //    public void addRuolo(Ruolo ruolo) {
 //        this.ruoli.add(ruolo);
 //    }
 
+//    @Override
+//    public Collection<? extends GrantedAuthority> getAuthorities() {
+//        List<SimpleGrantedAuthority> simpleRuolo = new ArrayList<>();
+//        this.ruoli.forEach(Ruolo -> {
+//            simpleRuolo.add(new SimpleGrantedAuthority(Ruolo.name()));
+//        });
+//        return simpleRuolo;
+//    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<SimpleGrantedAuthority> simpleRuolo = new ArrayList<>();
-        this.ruoli.forEach(Ruolo -> {
-            simpleRuolo.add(new SimpleGrantedAuthority(Ruolo.name()));
-        });
-        return simpleRuolo;
+        return ruoli.stream().map(ruolo -> new SimpleGrantedAuthority("ROLE_" + ruolo.getNome())).toList();
     }
 }
