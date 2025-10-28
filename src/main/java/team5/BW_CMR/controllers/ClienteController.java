@@ -48,27 +48,44 @@ public class ClienteController {
         clienteService.findByIdAndDelete(id);
     }
 
-    //GET ALL PARTE NOMECONTATTO
+    //GET ALL = PARTE NOMECONTATTO
     @GetMapping("/search")
     public Page<Cliente> getByParteNomeContatto(@RequestParam String q, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "nomeContatto") String sortBy) {
         return clienteService.findByParteNomeContatto(q, page, size, sortBy);
     }
 
-    // GET ALL FATTURATO ANNUALE
+    // GET ALL = FATTURATO ANNUALE
     @GetMapping("/fatturato")
     public Page<Cliente> getByFatturatoAnnuale(@RequestParam double fatturato, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String sortBy) {
         return clienteService.findByFatturatoAnnuale(fatturato, page, size, sortBy);
     }
 
-    //GET ALL DATA INSERIMENTO
+    //GET ALL = DATA INSERIMENTO
     @GetMapping("/data")
     public Page<Cliente> getByDataInserimento(@RequestParam String data, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String sortBy) {
         return clienteService.findByDataInserimento(data, page, size, sortBy);
     }
 
-    // GET ALL DATA ULTIMO CONTATTO
+    // GET ALL = DATA ULTIMO CONTATTO
     @GetMapping("/data-ultimo-contatto")
     public Page<Cliente> getByDataUltimoContatto(@RequestParam String data, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String sortBy) {
         return clienteService.findByDataUltimoContatto(data, page, size, sortBy);
     }
+
+    //GET ALL ORDINA ULTIMO CONTATTO
+    @GetMapping("/sortBy-ultimoContatto")
+    public Page<Cliente> getAllOrderByDataUltimoContatto(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+        return clienteService.findAllOrderByDataUltimoContatto(page, size);
+    }
+    //GET ALL ORDINA DATA INSERIMENTO
+    @GetMapping("/sortBy-ultimoContatto")
+    public Page<Cliente> getAllOrderByDataInserimento(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+        return clienteService.findAllOrderByDataInserimento(page, size);
+    }
+    //GET ALL ORDINA FATTURATO ANNUALE
+    @GetMapping("/sortBy-ultimoContatto")
+    public Page<Cliente> getAllOrderByFatturatoAnnuale(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+        return clienteService.findAllOrderByFatturatoAnnuale(page, size);
+    }
+
 }

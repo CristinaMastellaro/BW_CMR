@@ -93,6 +93,7 @@ public class ClienteService {
         log.info("Cliente eliminato con successo");
     }
 
+    //FILTRA
     public Page<Cliente> findByParteNomeContatto(String parteNome, int page, int size, String sortBy) {
         if (size > 50) size = 50;
         Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
@@ -118,5 +119,23 @@ public class ClienteService {
         LocalDate dataUltimoContatto = LocalDate.parse(data);
         return clienteRepository.findByDataUltimoContatto(dataUltimoContatto, pageable);
     }
+
+    //SOLO ORDINA
+    public Page<Cliente> findAllOrderByDataUltimoContatto(int page, int size) {
+        if (size > 50) size = 50;
+        Pageable pageable = PageRequest.of(page, size, Sort.by("dataUltimoContatto").descending());
+        return clienteRepository.findAll(pageable);
+    }
+    public Page<Cliente> findAllOrderByDataInserimento(int page, int size) {
+        if (size > 50) size = 50;
+        Pageable pageable = PageRequest.of(page, size, Sort.by("dataInserimento").descending());
+        return clienteRepository.findAll(pageable);
+    }
+    public Page<Cliente> findAllOrderByFatturatoAnnuale(int page, int size) {
+        if (size > 50) size = 50;
+        Pageable pageable = PageRequest.of(page, size, Sort.by("fatturatoAnnuale").descending());
+        return clienteRepository.findAll(pageable);
+    }
+
 
 }

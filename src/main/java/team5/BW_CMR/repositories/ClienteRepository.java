@@ -33,4 +33,5 @@ public interface ClienteRepository extends JpaRepository<Cliente, UUID> {
     Page<Cliente> findByFatturatoAnnuale(double fatturatoAnnuale, Pageable pageable);
     Page<Cliente> findByDataInserimento(LocalDate dataInserimento, Pageable pageable);
     Page<Cliente> findByDataUltimoContatto(LocalDate dataUltimoContatto, Pageable pageable);
+
 }
