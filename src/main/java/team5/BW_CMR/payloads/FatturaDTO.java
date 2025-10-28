@@ -3,7 +3,6 @@ package team5.BW_CMR.payloads;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-import team5.BW_CMR.entities.StatoFattura;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -19,8 +18,6 @@ double importo,
 @NotNull(message="Il numero di fattura è obbligatorio!")
 Long numero,
 
-@NotNull(message="Lo stato è obbligatorio")
-StatoFattura stato,
 
 @NotNull(message="Il cliente è obbligatorio!")
 UUID clienteID
