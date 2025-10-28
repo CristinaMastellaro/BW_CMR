@@ -57,25 +57,25 @@ public class ClienteController {
     }
 
     // GET ALL = FATTURATO ANNUALE
-    @GetMapping("/filtra/fatturato")
+    @GetMapping("/filtraFatturato")
     public Page<Cliente> getByFatturatoAnnuale(@RequestParam double fatturato, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String sortBy) {
         return clienteService.findByFatturatoAnnuale(fatturato, page, size, sortBy);
     }
 
     //GET ALL = DATA INSERIMENTO
-    @GetMapping("/filtra/data")
+    @GetMapping("/filtraData")
     public Page<Cliente> getByDataInserimento(@RequestParam String data, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String sortBy) {
         return clienteService.findByDataInserimento(data, page, size, sortBy);
     }
 
     // GET ALL = DATA ULTIMO CONTATTO
-    @GetMapping("/filtra/ultimoContatto")
+    @GetMapping("/filtraUltimoContatto")
     public Page<Cliente> getByDataUltimoContatto(@RequestParam String data, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String sortBy) {
         return clienteService.findByDataUltimoContatto(data, page, size, sortBy);
     }
 
     //GET ALL ORDINA ULTIMO CONTATTO
-    @GetMapping("/ordina/ultimoContatto")
+    @GetMapping("/ordina/dataUltimoContatto")
     public Page<Cliente> getAllOrderByDataUltimoContatto(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
         return clienteService.findAllOrderByDataUltimoContatto(page, size);
     }
