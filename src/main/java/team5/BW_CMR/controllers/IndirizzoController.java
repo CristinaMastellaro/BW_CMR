@@ -18,7 +18,7 @@ import java.util.UUID;
 public class IndirizzoController {
     @Autowired
     private IndirizzoService iServ;
-    
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Indirizzo saveAddress(@RequestBody @Validated IndirizzoDTO newAddress, BindingResult validation) {
@@ -35,6 +35,12 @@ public class IndirizzoController {
     @GetMapping
     public List<Indirizzo> findAllAddresses() {
         return iServ.findAllAddresses();
+    }
+
+    @DeleteMapping("/{indirizzoId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteIndirizzoById(@PathVariable UUID indirizzoId) {
+        iServ.deleteIndirizzo(indirizzoId);
     }
 
 }
