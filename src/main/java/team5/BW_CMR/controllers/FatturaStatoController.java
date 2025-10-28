@@ -21,15 +21,15 @@ public class FatturaStatoController {
     @Autowired
     private FatturaStatoService fsService;
 
-    /* metodo post http://localhost:8888/api/fatture-stati
-    metodo get (tutti gli stati di una fattura) http://localhost:8888/api/fatture-stati/fattura/{fatturaId}?page=0&size=10
-    metodo get (l'ultimo stato di una fattura) http://localhost:8888/api/fatture-stati/fattura/{fatturaId}/ultimo
-    metodo get (otteniamo stati per tipo) http://localhost:8888/api/fatture-stati/tipo?stato=INVIATA&page=0&size=10
-    metodo get (otteniamo stato fattura dopo una determinata data) http://localhost:8888/api/fatture-stati/dopo?data=2025-01-01&page=0&size=10
-    metodo get (otteniamo stato fattura prima di una determinata data) http://localhost:8888/api/fatture-stati/prima?data=2025-01-01&page=0&size=10
-    metodo get (otteniamo stato fattura in una data precisa) http://localhost:8888/api/fatture-stati/fattura/{fatturaId}/data?data=2025-10-28&page=0&size=10
-     metodo put http://localhost:8888/api/fatture-stati/{id}
-     metodo delete http://localhost:8888/api/fatture-stati/{id}
+    /* metodo post http://localhost:3001/api/fatture-stati
+    metodo get (tutti gli stati di una fattura) http://localhost:3001/api/fatture-stati/fattura/{fatturaId}?page=0&size=10
+    metodo get (l'ultimo stato di una fattura) http://localhost:3001/api/fatture-stati/fattura/{fatturaId}/ultimo
+    metodo get (otteniamo stati per tipo) http://localhost:3001/api/fatture-stati/tipo?stato=INVIATA&page=0&size=10
+    metodo get (otteniamo stato fattura dopo una determinata data) http://localhost:3001/api/fatture-stati/dopo?data=2025-01-01&page=0&size=10
+    metodo get (otteniamo stato fattura prima di una determinata data) http://localhost:3001/api/fatture-stati/prima?data=2025-01-01&page=0&size=10
+    metodo get (otteniamo stato fattura in una data precisa) http://localhost:3001/api/fatture-stati/fattura/{fatturaId}/data?data=2025-10-28&page=0&size=10
+     metodo put http://localhost:3001/api/fatture-stati/{id}
+     metodo delete http://localhost:3001/api/fatture-stati/{id}
      */
 
     //metodo post
