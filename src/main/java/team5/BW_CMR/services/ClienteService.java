@@ -15,6 +15,7 @@ import team5.BW_CMR.payloads.ClienteDTO;
 import team5.BW_CMR.repositories.ClienteRepository;
 import team5.BW_CMR.repositories.IndirizzoRepository;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -81,7 +82,7 @@ public class ClienteService {
     }
 
     public Page<Cliente> findAll(int page, int size, String sortBy) {
-        if (size > 100) size = 100;
+        if (size > 50) size = 50;
         Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
         return clienteRepository.findAll(pageable);
     }
@@ -90,6 +91,32 @@ public class ClienteService {
         Cliente cliente = this.findById(id);
         clienteRepository.delete(cliente);
         log.info("Cliente eliminato con successo");
+    }
+
+    public Page<Cliente> findByParteNomeContatto(String parteNome, int page, int size, String sortBy) {
+        if (size > 50) size = 50;
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+        return clienteRepository.findByParteNomeContatto(parteNome, pageable);
+    }
+
+    public Page<Cliente> findByFatturatoAnnuale(double fatturato, int page, int size, String sortBy) {
+        if (size > 50) size = 50;
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+        return clienteRepository.findByFatturatoAnnuale(fatturato, pageable);
+    }
+
+    public Page<Cliente> findByDataInserimento(String data, int page, int size, String sortBy) {
+        if (size > 50) size = 50;
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+        LocalDate dataInserimento = LocalDate.parse(data);
+        return clienteRepository.findByDataInserimento(dataInserimento, pageable);
+    }
+
+    public Page<Cliente> findByDataUltimoContatto(String data, int page, int size, String sortBy) {
+        if (size > 50) size = 50;
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+        LocalDate dataUltimoContatto = LocalDate.parse(data);
+        return clienteRepository.findByDataUltimoContatto(dataUltimoContatto, pageable);
     }
 
 }
