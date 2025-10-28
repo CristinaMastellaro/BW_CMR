@@ -37,4 +37,10 @@ public class IndirizzoController {
         return iServ.findAllAddresses();
     }
 
+    @DeleteMapping("/{indirizzoId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteIndirizzoById(@PathVariable UUID indirizzoId) {
+        iServ.deleteIndirizzo(indirizzoId);
+    }
+
 }

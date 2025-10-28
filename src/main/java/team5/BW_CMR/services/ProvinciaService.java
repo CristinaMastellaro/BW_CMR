@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import team5.BW_CMR.entities.Provincia;
+import team5.BW_CMR.exceptions.NotFoundException;
 import team5.BW_CMR.repositories.ProvinciaRepository;
 
 import java.util.List;
@@ -20,5 +21,12 @@ public class ProvinciaService {
 
     public List<Provincia> findAllProvince() {
         return pRepo.findAll();
+    }
+
+    public Provincia findProvinciaByNome(String nomeProvincia) {
+        Provincia provincia = pRepo.findByProvincia(nomeProvincia);
+        if (provincia == null)
+            throw new NotFoundException("Non è stata trovata nessuna provincia chiamata " + nomeProvincia);
+        return provincia;
     }
 }

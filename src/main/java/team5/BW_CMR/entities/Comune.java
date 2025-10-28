@@ -15,12 +15,14 @@ public class Comune {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
     private long id;
+    private long progressivoComune;
     private int codiceProvincia;
-    private int progressivoComune;
     private String denominazioneComune;
-    private String provincia;
 
-    public Comune(int codiceProvincia, int progressivoComune, String denominazioneComune, String provincia) {
+    @ManyToOne
+    private Provincia provincia;
+
+    public Comune(int codiceProvincia, int progressivoComune, String denominazioneComune, Provincia provincia) {
         this.codiceProvincia = codiceProvincia;
         this.progressivoComune = progressivoComune;
         this.denominazioneComune = denominazioneComune;
