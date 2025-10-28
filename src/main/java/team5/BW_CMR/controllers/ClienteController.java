@@ -95,6 +95,12 @@ public class ClienteController {
         return clienteService.findAllOrderByNomeContatto(page, size);
     }
 
+    //GET ALL ORDINA PROVINCIA
+    @GetMapping("/ordina/provincia")
+    public Page<Cliente> ordinaPerProvincia(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+        return clienteService.findAllOrderByProvincia(page, size);
+    }
+
     //PATCH LOGO
     @PatchMapping("/{id}/upload")
     public Cliente uploadLogo(@PathVariable UUID id, @RequestParam("logoAziendale")MultipartFile file) throws IOException {

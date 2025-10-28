@@ -154,6 +154,13 @@ public class ClienteService {
         return clienteRepository.findAll(pageable);
     }
 
+    public  Page<Cliente> findAllOrderByProvincia(int page, int size) {
+        if (size > 50) size = 50;
+        Pageable pageable = PageRequest.of(page, size);
+        return  clienteRepository.ordinaPerProvincia(pageable);
+    }
+
+
     //PATCH logo
     public Cliente uploadLogo(MultipartFile file, UUID id) {
         Cliente found = this.findById(id);
@@ -170,6 +177,8 @@ public class ClienteService {
         this.clienteRepository.save(found);
         return found;
     }
+
+
 
 
 }

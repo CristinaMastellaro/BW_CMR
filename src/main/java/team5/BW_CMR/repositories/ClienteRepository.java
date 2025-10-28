@@ -34,4 +34,7 @@ public interface ClienteRepository extends JpaRepository<Cliente, UUID> {
     Page<Cliente> findByDataInserimento(LocalDate dataInserimento, Pageable pageable);
     Page<Cliente> findByDataUltimoContatto(LocalDate dataUltimoContatto, Pageable pageable);
 
+    @Query("SELECT c FROM Cliente c  ORDER BY c.indirizzoLegale.comune.provincia.provincia")
+    Page<Cliente> ordinaPerProvincia(Pageable pageable);
+
 }
