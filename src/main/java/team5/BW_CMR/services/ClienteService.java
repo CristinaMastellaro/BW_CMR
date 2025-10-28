@@ -1,5 +1,7 @@
 package team5.BW_CMR.services;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -7,18 +9,19 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import team5.BW_CMR.entities.Cliente;
 import team5.BW_CMR.entities.Indirizzo;
+import team5.BW_CMR.exceptions.BadRequestException;
 import team5.BW_CMR.exceptions.NotFoundException;
 import team5.BW_CMR.exceptions.ValidationException;
 import team5.BW_CMR.payloads.ClienteDTO;
 import team5.BW_CMR.repositories.ClienteRepository;
 import team5.BW_CMR.repositories.IndirizzoRepository;
 
+import java.io.IOException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -28,6 +31,15 @@ public class ClienteService {
     private ClienteRepository clienteRepository;
     @Autowired
     private IndirizzoRepository indirizzoRepository;
+    @Autowired
+    private Cloudinary imageUploader;
+
+    private static final long MAX_SIZE = 5 * 948 * 948;
+    private static final Set<String> ALLOWED_TYPES = Set.of(
+            "image/jpg",
+            "image/png",
+            "image/jpeg"
+    );
 
     public Cliente save(ClienteDTO payload) {
         List<String> errors = new ArrayList<>();
@@ -140,6 +152,23 @@ public class ClienteService {
         if (size > 50) size = 50;
         Pageable pageable = PageRequest.of(page, size, Sort.by("nomeContatto").descending());
         return clienteRepository.findAll(pageable);
+    }
+
+    //PATCH logo
+    public Cliente uploadLogo(MultipartFile file, UUID id) {
+        Cliente found = this.findById(id);
+        if(file.isEmpty()) throw  new BadRequestException("File vuoto!");
+        if(file.getSize() > MAX_SIZE) throw  new BadRequestException("Dimensioni troppo pesanti!");
+        if(!ALLOWED_TYPES.contains(file.getContentType())) throw  new BadRequestException("Formato non valido! Solo JPG, JEPG, PNG");
+        try {
+            Map result = imageUploader.uploader().upload(file.getBytes(), ObjectUtils.emptyMap());
+            String imageUrl= (String) result.get("url");
+            found.setLogoAziendale(imageUrl);
+        } catch ( IOException ex) {
+            throw  new RuntimeException(ex);
+        }
+        this.clienteRepository.save(found);
+        return found;
     }
 
 

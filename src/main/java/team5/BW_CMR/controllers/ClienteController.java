@@ -7,11 +7,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import team5.BW_CMR.entities.Cliente;
 import team5.BW_CMR.exceptions.ValidationException;
 import team5.BW_CMR.payloads.ClienteDTO;
 import team5.BW_CMR.services.ClienteService;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 @RestController
@@ -93,4 +95,9 @@ public class ClienteController {
         return clienteService.findAllOrderByNomeContatto(page, size);
     }
 
+    //PATCH LOGO
+    @PatchMapping("/{id}/upload")
+    public Cliente uploadLogo(@PathVariable UUID id, @RequestParam("logoAziendale")MultipartFile file) throws IOException {
+        return this.clienteService.uploadLogo(file, id);
+    }
 }
