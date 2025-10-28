@@ -84,13 +84,13 @@ public class FatturaController {
             @RequestParam("start") LocalDate start,
             @RequestParam("end") LocalDate end) {
 
-        List<Fattura> fatture = fatturaService.findByDataBetween(start, end);
+        List<Fattura> result = fatturaService.findByDataBetween(start, end);
 
-        if (fatture.isEmpty()) {
+        if (result.isEmpty()) {
             throw new NotFoundException("Nessuna fattura trovata tra " + start + " e " + end);
         }
 
-        return fatture;
+        return result;
     }
 
     //get per importo
@@ -99,13 +99,13 @@ public class FatturaController {
             @RequestParam("min") double min,
             @RequestParam("max") double max) {
 
-        List<Fattura> fatture = fatturaService.findByImportoBetween(min, max);
+        List<Fattura> result = fatturaService.findByImportoBetween(min, max);
 
-        if (fatture.isEmpty()) {
+        if (result.isEmpty()) {
             throw new NotFoundException("Nessuna fattura trovata con importi tra " + min + " e " + max);
         }
 
-        return fatture;
+        return result;
     }
 
 
