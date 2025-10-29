@@ -5,8 +5,14 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import team5.BW_CMR.entities.Comune;
 import team5.BW_CMR.entities.Provincia;
+import team5.BW_CMR.entities.Ruolo;
+import team5.BW_CMR.entities.Utente;
+import team5.BW_CMR.payloads.RuoloDTO;
+import team5.BW_CMR.payloads.UtenteDTO;
 import team5.BW_CMR.services.ComuneService;
 import team5.BW_CMR.services.ProvinciaService;
+import team5.BW_CMR.services.RuoloService;
+import team5.BW_CMR.services.UtenteService;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -20,6 +26,12 @@ public class csvUploaderRunner implements CommandLineRunner {
     private ComuneService cServ;
     @Autowired
     private ProvinciaService pServ;
+    @Autowired
+    private RuoloService ruoloService;
+    @Autowired
+    private UtenteService utenteService;
+    @Autowired
+    private String password;
 
     @Override
     public void run(String... args) throws Exception {
@@ -48,12 +60,6 @@ public class csvUploaderRunner implements CommandLineRunner {
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
-            Provincia VCO = new Provincia("VB", "Verbano-Cusio-Ossola", "Piemonte");
-            Provincia bolzano = new Provincia("BZ", "Bolzano/Bozen", "Trentino Alto Adige");
-            Provincia valleAosta = new Provincia("AO", "Valle d'Aosta/Vallée d'Aoste", "Valle d'Aosta/Vallée d'Aoste");
-            pServ.saveProvincia(VCO);
-            pServ.saveProvincia(bolzano);
-            pServ.saveProvincia(valleAosta);
             System.out.println("Province salvate!");
         }
 
@@ -77,6 +83,9 @@ public class csvUploaderRunner implements CommandLineRunner {
                         List<String> comune = Arrays.asList(singolaLineaComune.split(";"));
                         Provincia provincia = switch (comune.getLast()) {
                             case "Monza e della Brianza" -> pServ.findProvinciaByNome("Monza-Brianza");
+                            case "Verbano-Cusio-Ossola" -> pServ.findProvinciaByNome("Verbania");
+                            case "Bolzano/Bozen" -> pServ.findProvinciaByNome("Bolzano");
+                            case "Valle d'Aosta/Vallée d'Aoste" -> pServ.findProvinciaByNome("Aosta");
                             case "La Spezia" -> pServ.findProvinciaByNome("La-Spezia");
                             case "Forlì-Cesena" -> pServ.findProvinciaByNome("Forli-Cesena");
                             case "Sud Sardegna" -> pServ.findProvinciaByNome("Medio Campidano");
@@ -101,6 +110,20 @@ public class csvUploaderRunner implements CommandLineRunner {
                 e.printStackTrace();
             }
             System.out.println("DB UPLOADED!");
+        }
+        if (ruoloService.findAll().isEmpty()) {
+            RuoloDTO user = new RuoloDTO("USER");
+            RuoloDTO admin = new RuoloDTO("ADMIN");
+            ruoloService.saveRuolo(user);
+            ruoloService.saveRuolo(admin);
+        }
+
+        Ruolo admin = ruoloService.getRuoloById(2);
+        if (!utenteService.existsByRuolo(admin)) {
+            UtenteDTO utente = new UtenteDTO("aldo", "email@email.com", password, "aldo", "baglio");
+            Utente newUtente = utenteService.salvaUtente(utente);
+            utenteService.promuoviAdmin(newUtente.getId());
+            System.out.println("Utente admin salvato!");
         }
     }
 }

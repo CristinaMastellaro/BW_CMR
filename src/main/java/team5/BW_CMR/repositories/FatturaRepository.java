@@ -1,6 +1,7 @@
 package team5.BW_CMR.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -11,12 +12,12 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public interface FatturaRepository extends JpaRepository<Fattura, UUID> {
+public interface FatturaRepository extends JpaRepository<Fattura, UUID>, JpaSpecificationExecutor <Fattura> {
+
+// tolgo tutte le query e estendo JpaSpecificationExecutor
 
 
-
-
-    //filtro x cliente
+  /*  //filtro x cliente
     List<Fattura> findByCliente_Id(UUID clienteId);
 
     //filtro x data
@@ -30,5 +31,7 @@ public interface FatturaRepository extends JpaRepository<Fattura, UUID> {
 @Query("SELECT f FROM Fattura f WHERE f.importo BETWEEN :min AND :max")
     List<Fattura> findByImportoBetween(@Param("min")double min,
                                        @Param("max")double max);
-
+*/
+  List<Fattura> findByData(LocalDate data);
+    List<Fattura> findByCliente_Id(UUID clienteId);
 }

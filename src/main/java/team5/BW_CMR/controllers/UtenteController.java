@@ -23,23 +23,23 @@ public class UtenteController {
     @Autowired
     private UtenteService utenteService;
 
-    @PostMapping
-    public ResponseEntity<?> creaUtente(@RequestBody UtenteDTO dto, Authentication auth) {
-        if (dto.isAdmin()) {
-            if (auth == null) {
-                return ResponseEntity.status(403).body("autenticazione fallita");
-            }
-            Utente requester = (Utente) auth.getPrincipal();
-            boolean isAdmin = requester.getAuthorities().stream()
-                    .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
-            if (!isAdmin) {
-                return ResponseEntity.status(403).body("solo un admin può creare un altro admin");
-            }
-        }
-
-        Utente nuovo = utenteService.salvaUtente(dto);
-        return new ResponseEntity<>(nuovo, HttpStatus.CREATED);
-    }
+//    @PostMapping
+//    public ResponseEntity<?> creaUtente(@RequestBody UtenteDTO dto, Authentication auth) {
+//        if (dto.isAdmin()) {
+//            if (auth == null) {
+//                return ResponseEntity.status(403).body("autenticazione fallita");
+//            }
+//            Utente requester = (Utente) auth.getPrincipal();
+//            boolean isAdmin = requester.getAuthorities().stream()
+//                    .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+//            if (!isAdmin) {
+//                return ResponseEntity.status(403).body("solo un admin può creare un altro admin");
+//            }
+//        }
+//
+//        Utente nuovo = utenteService.salvaUtente(dto);
+//        return new ResponseEntity<>(nuovo, HttpStatus.CREATED);
+//    }
 
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")

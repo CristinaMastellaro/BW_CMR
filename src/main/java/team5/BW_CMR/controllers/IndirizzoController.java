@@ -22,7 +22,8 @@ public class IndirizzoController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    @PreAuthorize("hasAuthority('ADMIN')")
+//    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public Indirizzo saveAddress(@RequestBody @Validated IndirizzoDTO newAddress, BindingResult validation) {
         if (validation.hasErrors())
             throw new ValidationException(validation.getFieldErrors().stream().map(fL -> fL.getDefaultMessage()).toList());
@@ -40,7 +41,7 @@ public class IndirizzoController {
     }
 
     @DeleteMapping("/{indirizzoId}")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteIndirizzoById(@PathVariable UUID indirizzoId) {
         iServ.deleteIndirizzo(indirizzoId);
