@@ -90,6 +90,7 @@ public class UtenteService {
         Utente utente = getUtenteById(id);
         Ruolo admin = ruoloRepository.findByNome("ADMIN").orElseGet(() -> ruoloRepository.save(new Ruolo("ADMIN")));
 //        Ruolo admin = ruoloService.getRuoloById(2);
+//        Set<Ruolo> ruoli = utente.getRuoli();
         Set<Ruolo> ruoli = utente.getRuoli();
         ruoli.add(admin);
         utente.setRuoli(ruoli);
@@ -114,8 +115,14 @@ public class UtenteService {
     }
 
     @Transactional
-    public List<Utente> findAllByRuolo(Ruolo ruolo) {
-        return getAllUtenti().stream().filter(u -> u.getRuoli().contains(ruolo)).toList();
+    public boolean existsByRuolo(Ruolo ruolo) {
+//        System.out.println("Utenti: " + getAllUtenti());
+//        System.out.println("Utenti: " + getAllUtenti().stream().filter(u -> {
+//            System.out.println(u.getRuoli());
+//            return u.getRuoli().contains(ruolo);
+//        }).toList());
+//        return !getAllUtenti().stream().filter(u -> u.getRuoli().contains(ruolo)).toList().isEmpty();
+        return !utenteRepository.findAllByRuolo(ruolo).isEmpty();
     }
 
 }

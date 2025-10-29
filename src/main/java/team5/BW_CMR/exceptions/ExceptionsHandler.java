@@ -2,6 +2,7 @@ package team5.BW_CMR.exceptions;
 
 
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -27,7 +28,7 @@ public class ExceptionsHandler {
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ErrorsDTO handleServerError(Exception ex){
+    public ErrorsDTO handleServerError(Exception ex) {
         ex.printStackTrace();
         return new ErrorsDTO("Errore nel server", LocalDateTime.now());
     }
@@ -38,4 +39,9 @@ public class ExceptionsHandler {
         return new ErrorsListDTO(ex.getMessage(), LocalDateTime.now(), ex.getErrors());
     }
 
+    @ExceptionHandler(AuthorizationDeniedException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ErrorsDTO handleValidationErrors(AuthorizationDeniedException ex) {
+        return new ErrorsDTO(ex.getMessage(), LocalDateTime.now());
+    }
 }
