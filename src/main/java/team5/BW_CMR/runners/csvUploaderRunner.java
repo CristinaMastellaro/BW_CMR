@@ -119,7 +119,6 @@ public class csvUploaderRunner implements CommandLineRunner {
             ruoloService.saveRuolo(admin);
         }
 
-        if(utenteService.findByRuolo())
 
     }
 }
