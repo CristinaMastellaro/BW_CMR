@@ -20,6 +20,6 @@ Long numero,
 
 
 @NotNull(message="Il cliente è obbligatorio!")
-UUID clienteID
+UUID clienteId
 
 ){}
