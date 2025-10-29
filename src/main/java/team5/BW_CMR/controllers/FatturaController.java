@@ -26,8 +26,6 @@ public class FatturaController {
     private ClienteRepository clienteRepository;
 
     //metodo post  http://localhost:3001/api/fatture
-
-
     @PostMapping
     public Fattura create(@RequestBody @Valid FatturaDTO dto) {
         Cliente cliente = clienteRepository.findById(dto.clienteID()).orElseThrow(() -> new NotFoundException("cliente non trovato con id:" + dto.clienteID()));
