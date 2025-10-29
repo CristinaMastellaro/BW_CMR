@@ -74,7 +74,7 @@ public class FatturaStatoService {
         return result;
     }
 
-
+/*
     // stati dopo una determinata data
 
     public Page<FatturaStato> getStatiDopo(LocalDate data, int page, int size) {
@@ -96,6 +96,9 @@ public class FatturaStatoService {
         }
         return result;
     }
+*/
+
+
 
     //stato in una determinata data
 
