@@ -3,6 +3,7 @@ package team5.BW_CMR.controllers;
 
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 import team5.BW_CMR.entities.Cliente;
 import team5.BW_CMR.entities.Fattura;
@@ -51,64 +52,51 @@ public class FatturaController {
     }
 
 
+//get fattura per cliente http://localhost.3001/api/fattura/cliente/{id}
 
-//get per cliente http://localhost:3001/api/fatture/cliente/{clienteId}
-
-    @GetMapping("/cliente/{clienteId}")
-    public List<Fattura> getByCliente(@PathVariable UUID clienteId) {
-        List<Fattura> result = fatturaService.findByCliente(clienteId);
-        if (result.isEmpty()) throw new NotFoundException("nassuna fattura trovata per il cliente con id " + clienteId);
+@GetMapping("/cliente/{clienteId}")
+public List<Fattura> getByCliente(@PathVariable UUID clienteId){
+        List<Fattura> result=fatturaService.findByCliente_Id(clienteId);
+        if(result.isEmpty()) throw new NotFoundException("nessuna fattura trovata per cliente con id:" + clienteId);
         return result;
-    }
+}
 
-    // get per data esatta http://localhost:3001/api/fattura/data/2025-10-27
+//get fattura per una data esatta http://localhost.3001/api/fatture/data/{data}
+
     @GetMapping("/data/{data}")
-    public List<Fattura> getByData(@PathVariable String data) {
-        LocalDate parsedDate;// x convertire la stringa in local date
-        try {
-            parsedDate = LocalDate.parse(data);
-        } catch (Exception e) {
-            throw new BadRequestException("Formato data non valido.");
+    public List<Fattura> getByData(@PathVariable String data){
+        LocalDate parsedDate;
+        try{
+            parsedDate= LocalDate.parse(data);
+        } catch (RuntimeException e) {
+            throw new BadRequestException("Formato data non valido!");
         }
-        List<Fattura> result = fatturaService.findByData(parsedDate);
-        if (result.isEmpty()) throw new NotFoundException("Nessuna fattura trovare per la data " + data);
+        List <Fattura> result= fatturaService.findByData(parsedDate);
+        if(result.isEmpty())throw new NotFoundException("nessuna fattura per la data "+ data);
         return result;
     }
 
-    //get per anno http://localhost:3001/api/fatture/anno/2025
+//get specification http://localhost:3001/api/fatture/filter?importoMin=1000 (x esempio)
 
-    @GetMapping("/date-range")
-    public List<Fattura> getFatturaByDataRange(
-            @RequestParam("start") LocalDate start,
-            @RequestParam("end") LocalDate end) {
-
-        List<Fattura> result = fatturaService.findByDataBetween(start, end);
-
+    @GetMapping("/filter")
+    public List<Fattura> filterFatture(
+            @RequestParam(required = false)Double importoMin,
+            @RequestParam(required = false)Double importoMax,
+            @RequestParam(required = false) @DateTimeFormat(iso=DateTimeFormat.ISO.DATE)LocalDate dataMin,
+            @RequestParam(required = false)@DateTimeFormat(iso=DateTimeFormat.ISO.DATE)LocalDate dataMax,
+            @RequestParam(required = false)Long numero,
+            @RequestParam(required = false)UUID clienteId
+    ) {
+        List<Fattura> result = fatturaService.filterFatture(importoMin, importoMax, dataMin, dataMax, numero, clienteId);
         if (result.isEmpty()) {
-            throw new NotFoundException("Nessuna fattura trovata tra " + start + " e " + end);
+            throw new NotFoundException("Nessuna fattura trovata con questi criteri");
         }
-
         return result;
-    }
 
-    //get per importo
-    @GetMapping("/importo-range")
-    public List<Fattura> getFatturaByImportoRange(
-            @RequestParam("min") double min,
-            @RequestParam("max") double max) {
-
-        List<Fattura> result = fatturaService.findByImportoBetween(min, max);
-
-        if (result.isEmpty()) {
-            throw new NotFoundException("Nessuna fattura trovata con importi tra " + min + " e " + max);
-        }
-
-        return result;
     }
 
 
-
-        //delete
+        //delete http://localhost:3001/api/fatture/{id}
         @DeleteMapping("/{id}")
         public void deleteFattura(@PathVariable UUID id) {
             fatturaService.deleteFattura(id);
