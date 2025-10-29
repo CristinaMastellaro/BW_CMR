@@ -2,13 +2,13 @@ package team5.BW_CMR.runners;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import team5.BW_CMR.entities.Comune;
 import team5.BW_CMR.entities.Provincia;
 import team5.BW_CMR.entities.Ruolo;
 import team5.BW_CMR.entities.Utente;
 import team5.BW_CMR.payloads.RuoloDTO;
+import team5.BW_CMR.payloads.UtenteDTO;
 import team5.BW_CMR.services.ComuneService;
 import team5.BW_CMR.services.ProvinciaService;
 import team5.BW_CMR.services.RuoloService;
@@ -30,6 +30,8 @@ public class csvUploaderRunner implements CommandLineRunner {
     private RuoloService ruoloService;
     @Autowired
     private UtenteService utenteService;
+    @Autowired
+    private String password;
 
     @Override
     public void run(String... args) throws Exception {
@@ -117,9 +119,17 @@ public class csvUploaderRunner implements CommandLineRunner {
             RuoloDTO admin = new RuoloDTO("ADMIN");
             ruoloService.saveRuolo(user);
             ruoloService.saveRuolo(admin);
+            System.out.println("Ruoli salvati!");
         }
 
-        if(utenteService.findByRuolo())
+        Ruolo admin = ruoloService.getRuoloById(2);
+        if (utenteService.findAllByRuolo(admin).isEmpty()) {
+            UtenteDTO utente = new UtenteDTO("aldo", "email@email.com", password, "aldo", "baglio");
+            Utente newUtente = utenteService.salvaUtente(utente);
+//            newUtente.setRuoli(Set.of(admin));
+            utenteService.promuoviAdmin(newUtente.getId());
+            System.out.println("Utente admin salvato!");
+        }
 
     }
 }
