@@ -60,12 +60,12 @@ public class csvUploaderRunner implements CommandLineRunner {
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
-            Provincia VCO = new Provincia("VB", "Verbano-Cusio-Ossola", "Piemonte");
-            Provincia bolzano = new Provincia("BZ", "Bolzano/Bozen", "Trentino Alto Adige");
-            Provincia valleAosta = new Provincia("AO", "Valle d'Aosta/Vallée d'Aoste", "Valle d'Aosta/Vallée d'Aoste");
-            pServ.saveProvincia(VCO);
-            pServ.saveProvincia(bolzano);
-            pServ.saveProvincia(valleAosta);
+//            Provincia VCO = new Provincia("VB", "Verbano-Cusio-Ossola", "Piemonte");
+//            Provincia bolzano = new Provincia("BZ", "Bolzano/Bozen", "Trentino Alto Adige");
+//            Provincia valleAosta = new Provincia("AO", "Valle d'Aosta/Vallée d'Aoste", "Valle d'Aosta/Vallée d'Aoste");
+//            pServ.saveProvincia(VCO);
+//            pServ.saveProvincia(bolzano);
+//            pServ.saveProvincia(valleAosta);
             System.out.println("Province salvate!");
         }
 
@@ -89,6 +89,9 @@ public class csvUploaderRunner implements CommandLineRunner {
                         List<String> comune = Arrays.asList(singolaLineaComune.split(";"));
                         Provincia provincia = switch (comune.getLast()) {
                             case "Monza e della Brianza" -> pServ.findProvinciaByNome("Monza-Brianza");
+                            case "Verbano-Cusio-Ossola" -> pServ.findProvinciaByNome("Verbania");
+                            case "Bolzano/Bozen" -> pServ.findProvinciaByNome("Bolzano");
+                            case "Valle d'Aosta/Vallée d'Aoste" -> pServ.findProvinciaByNome("Aosta");
                             case "La Spezia" -> pServ.findProvinciaByNome("La-Spezia");
                             case "Forlì-Cesena" -> pServ.findProvinciaByNome("Forli-Cesena");
                             case "Sud Sardegna" -> pServ.findProvinciaByNome("Medio Campidano");
