@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import team5.BW_CMR.entities.Cliente;
@@ -18,6 +19,7 @@ import team5.BW_CMR.exceptions.ValidationException;
 import team5.BW_CMR.payloads.ClienteDTO;
 import team5.BW_CMR.repositories.ClienteRepository;
 import team5.BW_CMR.repositories.IndirizzoRepository;
+import team5.BW_CMR.specifications.ClienteSpecifications;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -106,7 +108,7 @@ public class ClienteService {
     }
 
     //FILTRA
-    public Page<Cliente> findByParteNomeContatto(String parteNome, int page, int size, String sortBy) {
+    /*public Page<Cliente> findByParteNomeContatto(String parteNome, int page, int size, String sortBy) {
         if (size > 50) size = 50;
         Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
         return clienteRepository.findByParteNomeContatto(parteNome, pageable);
@@ -158,6 +160,38 @@ public class ClienteService {
         if (size > 50) size = 50;
         Pageable pageable = PageRequest.of(page, size);
         return  clienteRepository.ordinaPerProvincia(pageable);
+    }*/
+
+    public Page<Cliente> findAllWithFilters(
+            String nomeContatto,
+            Double fatturato,
+            LocalDate dataInserimento,
+            LocalDate dataUltimoContatto,
+            String provincia,
+            int page,
+            int size,
+            String sortBy
+    ) {
+        if (size > 50) size = 50;
+        Specification<Cliente> spec = (root, query, builder) -> builder.conjunction();
+        if (nomeContatto != null && !nomeContatto.isEmpty()) {
+            spec = spec.and(ClienteSpecifications.nomeContattoContiene(nomeContatto));
+        }
+        if (fatturato != null) {
+            spec = spec.and(ClienteSpecifications.fatturatoUgualeA(fatturato));
+        }
+        if (dataInserimento != null) {
+            spec = spec.and(ClienteSpecifications.dataInserimentoUgualeA(dataInserimento));
+        }
+        if (dataUltimoContatto != null) {
+            spec = spec.and(ClienteSpecifications.dataUltimoContattoUgualeA(dataUltimoContatto));
+        }
+        if (provincia != null && !provincia.isEmpty()) {
+            spec = spec.and(ClienteSpecifications.provinciaUgualeA(provincia));
+        }
+
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, sortBy));
+        return clienteRepository.findAll(spec, pageable);
     }
 
 

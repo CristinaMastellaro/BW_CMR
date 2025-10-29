@@ -14,6 +14,7 @@ import team5.BW_CMR.payloads.ClienteDTO;
 import team5.BW_CMR.services.ClienteService;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 @RestController
@@ -51,7 +52,7 @@ public class ClienteController {
     }
 
     //GET ALL = PARTE NOMECONTATTO
-    @GetMapping("/search")
+   /* @GetMapping("/search")
     public Page<Cliente> getByParteNomeContatto(@RequestParam String q, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "nomeContatto") String sortBy) {
         return clienteService.findByParteNomeContatto(q, page, size, sortBy);
     }
@@ -99,7 +100,17 @@ public class ClienteController {
     @GetMapping("/ordina/provincia")
     public Page<Cliente> ordinaPerProvincia(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
         return clienteService.findAllOrderByProvincia(page, size);
+    }*/
+
+    @GetMapping("/cerca")
+    public Page<Cliente> cercaClienti(@RequestParam(required = false) String nomeContatto, @RequestParam(required = false) Double fatturato, @RequestParam(required = false) String dataInserimento, @RequestParam(required = false) String dataUltimoContatto, @RequestParam(required = false) String provincia, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String sortBy
+    ) {
+        LocalDate dataIns = dataInserimento != null ? LocalDate.parse(dataInserimento) : null;
+        LocalDate dataUlt = dataUltimoContatto != null ? LocalDate.parse(dataUltimoContatto) : null;
+
+        return clienteService.findAllWithFilters(nomeContatto, fatturato, dataIns, dataUlt, provincia, page, size, sortBy);
     }
+
 
     //PATCH LOGO
     @PatchMapping("/{id}/upload")
