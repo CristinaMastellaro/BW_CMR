@@ -2,7 +2,7 @@ import Button from "react-bootstrap/Button";
 import { Container, Row, Col, Form, Alert } from "react-bootstrap";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import mm from '../assets/mojojo.png'
 const LoginForm = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -50,12 +50,20 @@ const LoginForm = () => {
   };
 
   return (
-    <Container>
-      <Row className="justify-content-center mt-5">
-        <Col xs={12} md={8}>
+    <Container fluid className="p-5 font-nunito">
+      <Row className="text-center justify-content-center">
+                <Col xs={8}>
+                  <img className="w-100" src={mm} />
+                </Col>
+              </Row>
+      <Row className="justify-content-center border-row2 p-2 pb-4">
+        <Col xs={10} className="text-center">
+            <h1 className=" fw-bolder">Sign in!</h1>
+          </Col>
+        <Col  xs={10} md={6} className="bg-white">
           <Form onSubmit={saveForm}>
             <Form.Group className="mb-3" controlId="username">
-              <Form.Label>Username</Form.Label>
+              <Form.Label className="fw-bolder ">Username</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Enter username"
@@ -66,7 +74,7 @@ const LoginForm = () => {
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formBasicPassword">
-              <Form.Label>Password</Form.Label>
+              <Form.Label className="fw-bolder text-green">Password</Form.Label>
               <Form.Control
                 type="password"
                 placeholder="Password"
@@ -76,7 +84,7 @@ const LoginForm = () => {
               />
             </Form.Group>
 
-            <Button variant="primary" type="submit">
+            <Button className="btn-green d-block mx-auto" type="submit">
               Submit
             </Button>
           </Form>

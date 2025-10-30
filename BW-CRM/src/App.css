@@ -46,3 +46,46 @@
   border-color: #ff69b4 !important;
   box-shadow: 0 0 8px #ff69b4 !important;
 }
+
+.border-row2 {
+  border-radius: 20px;
+  border: 2px solid #39ff14;
+  box-shadow: 0 0 15px #39ff14, 0 0 30px rgba(57, 255, 20, 0.4),
+    0 0 45px rgba(57, 255, 20, 0.2);
+  background-color: rgba(57, 255, 20, 0.15);
+  z-index: 10 !important;
+  position: relative;
+}
+.btn-green {
+  border-color: #39ff14 !important;
+  box-shadow: 0 0 8px #39ff14, 0 0 20px rgba(57, 255, 20, 0.4),
+    0 0 25px rgba(57, 255, 20, 0.2) !important;
+  background-color: rgba(57, 255, 20, 0.15) !important;
+  color: black !important;
+  transition: all 0.4s ease-in;
+}
+
+.btn-green:hover {
+  background-color: #39ff14 !important;
+  color: black !important;
+  box-shadow: 0 0 15px #39ff14, 0 0 20px rgba(57, 255, 20, 0.8),
+    0 0 25px rgba(57, 255, 20, 0.6), 0 0 100px rgba(57, 255, 20, 0.4) !important;
+  border-color: #00ff00 !important;
+  font-weight: bold;
+}
+
+.text-green {
+  color: #39ff14 !important;
+  text-shadow: 0 0 8px rgba(57, 255, 20, 0.5);
+}
+
+.green-checkbox .form-check-input {
+  cursor: pointer;
+  border: 2px solid #39ff14;
+}
+
+.green-checkbox .form-check-input:checked {
+  background-color: #39ff14 !important;
+  border-color: #39ff14 !important;
+  box-shadow: 0 0 8px #39ff14, 0 0 15px rgba(57, 255, 20, 0.5) !important;
+}
