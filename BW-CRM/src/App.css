@@ -1,0 +1,39 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap");
+
+.font-nunito {
+  font-family: "Nunito", sans-serif;
+}
+
+.border-row {
+  border-radius: 20px;
+  border-color: #ff69b4;
+  box-shadow: 0 0 15px #ff69b4, 0 0 30px rgba(255, 105, 180, 0.4),
+    0 0 45px rgba(255, 105, 180, 0.2);
+  background-color: rgba(253, 198, 190, 0.15);
+  z-index: 10 !important;
+  position: relative;
+}
+.bg-white {
+  background-color: white;
+  border-radius: 20px;
+  border-style: dotted;
+  padding: 2%;
+}
+.btn-pink {
+  border-color: #ff69b4 !important;
+  box-shadow: 0 0 8px #ff69b4, 0 0 20px rgba(255, 105, 180, 0.4),
+    0 0 25px rgba(255, 105, 180, 0.2) !important;
+  background-color: rgba(253, 198, 190, 0.15) !important;
+  color: black !important;
+  transition: all 0.4s ease-in;
+}
+.btn-pink:hover {
+  background-color: #ff69b4 !important;
+  color: white !important;
+  box-shadow: 0 0 15px #ff69b4, 0 0 20px rgba(255, 105, 180, 0.8),
+    0 0 25px rgba(255, 105, 180, 0.6), 0 0 100px rgba(255, 105, 180, 0.4) !important;
+  border-color: #ff1493 !important;
+}
+.text-pink {
+  color: #ff69b4;
+}
