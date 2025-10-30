@@ -2,6 +2,7 @@ package team5.BW_CMR.entities;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Data;
@@ -20,6 +21,7 @@ import java.util.UUID;
 @Table(name = "utenti")
 @Data
 @NoArgsConstructor(force = true)
+@JsonIgnoreProperties({"enabled","authorities","accountNonExpired","accountNonLocked","credentialsNonExpired"})
 public class Utente implements UserDetails {
 
     @Id

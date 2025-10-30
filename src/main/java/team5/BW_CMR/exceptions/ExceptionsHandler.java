@@ -1,6 +1,8 @@
 package team5.BW_CMR.exceptions;
 
 
+import jakarta.validation.ConstraintViolationException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -14,9 +16,9 @@ import java.time.LocalDateTime;
 @RestControllerAdvice
 public class ExceptionsHandler {
 
-    @ExceptionHandler(BadRequestException.class)
+    @ExceptionHandler({BadRequestException.class, DataIntegrityViolationException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorsDTO handleBadRequest(BadRequestException ex) {
+    public ErrorsDTO handleBadRequest(Exception ex) {
         return new ErrorsDTO(ex.getMessage(), LocalDateTime.now());
     }
 
@@ -24,13 +26,6 @@ public class ExceptionsHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorsDTO halderNotFound(NotFoundException ex) {
         return new ErrorsDTO("Elemento non trovato in db o id incorretto", LocalDateTime.now());
-    }
-
-    @ExceptionHandler(Exception.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ErrorsDTO handleServerError(Exception ex) {
-        ex.printStackTrace();
-        return new ErrorsDTO("Errore nel server", LocalDateTime.now());
     }
 
     @ExceptionHandler(ValidationException.class)
@@ -43,5 +38,18 @@ public class ExceptionsHandler {
     @ResponseStatus(HttpStatus.FORBIDDEN)
     public ErrorsDTO handleValidationErrors(AuthorizationDeniedException ex) {
         return new ErrorsDTO(ex.getMessage(), LocalDateTime.now());
+    }
+
+    @ExceptionHandler(UnauthorizedException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ErrorsDTO handleUnhautorizedError(UnauthorizedException ex) {
+        return new ErrorsDTO(ex.getMessage(), LocalDateTime.now());
+    }
+
+    @ExceptionHandler(Exception.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ErrorsDTO handleServerError(Exception ex) {
+        ex.printStackTrace();
+        return new ErrorsDTO("Errore nel server", LocalDateTime.now());
     }
 }

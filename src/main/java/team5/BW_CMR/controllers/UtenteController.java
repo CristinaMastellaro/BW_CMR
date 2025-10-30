@@ -48,7 +48,7 @@ public class UtenteController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN', 'USER')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Utente> getById(@PathVariable UUID id) {
         return ResponseEntity.ok(utenteService.getUtenteById(id));
     }
@@ -69,6 +69,7 @@ public class UtenteController {
 
     //patch avatar
     @PatchMapping("/{id}/upload")
+    @PreAuthorize("hasRole('ADMIN')")
     public Utente uploadAvatar(@PathVariable UUID id, @RequestParam("avatarUrl")MultipartFile file) throws IOException {
         return this.utenteService.avatarUploader(file, id);
     }

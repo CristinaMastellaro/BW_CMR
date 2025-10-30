@@ -4,11 +4,14 @@ package team5.BW_CMR.controllers;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import team5.BW_CMR.entities.Cliente;
 import team5.BW_CMR.entities.Fattura;
 import team5.BW_CMR.exceptions.BadRequestException;
 import team5.BW_CMR.exceptions.NotFoundException;
+import team5.BW_CMR.exceptions.ValidationException;
 import team5.BW_CMR.payloads.FatturaDTO;
 import team5.BW_CMR.repositories.ClienteRepository;
 import team5.BW_CMR.services.FatturaService;
@@ -28,8 +31,11 @@ public class FatturaController {
 
     //metodo post  http://localhost:3001/api/fatture
     @PostMapping
-    public Fattura create(@RequestBody @Valid FatturaDTO dto) {
-        Cliente cliente = clienteRepository.findById(dto.clienteID()).orElseThrow(() -> new NotFoundException("cliente non trovato con id:" + dto.clienteID()));
+    public Fattura create(@RequestBody @Validated FatturaDTO dto, BindingResult validationResult) {
+
+        if (validationResult.hasErrors()) {throw new ValidationException(validationResult.getFieldErrors().stream().map(fieldError -> fieldError.getDefaultMessage()).toList());
+        }
+        Cliente cliente = clienteRepository.findById(dto.clienteId()).orElseThrow(() -> new NotFoundException("cliente non trovato con id:" + dto.clienteId()));
 
         if (dto.importo() <= 0) {
             throw new BadRequestException("L'importo deve essere maggiore di zero");
