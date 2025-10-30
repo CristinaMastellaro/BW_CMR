@@ -1,11 +1,10 @@
-package team5.BW_CMR.specification;
+package team5.BW_CMR.specifications;
 
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import org.springframework.data.jpa.domain.Specification;
-import team5.BW_CMR.entities.Fattura;
 import team5.BW_CMR.entities.FatturaStato;
 import team5.BW_CMR.entities.StatoFattura;
 

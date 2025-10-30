@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import team5.BW_CMR.entities.Fattura;
 import team5.BW_CMR.exceptions.NotFoundException;
 import team5.BW_CMR.repositories.FatturaRepository;
-import team5.BW_CMR.specification.FatturaSpecification;
+import team5.BW_CMR.specifications.FatturaSpecification;
 
 import java.time.LocalDate;
 import java.util.List;

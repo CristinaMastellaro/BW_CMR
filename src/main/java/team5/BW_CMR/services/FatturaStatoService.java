@@ -10,10 +10,9 @@ import team5.BW_CMR.exceptions.NotFoundException;
 import team5.BW_CMR.payloads.FatturaStatoDTO;
 import team5.BW_CMR.repositories.FatturaRepository;
 import team5.BW_CMR.repositories.FatturaStatoRepository;
-import team5.BW_CMR.specification.FatturaStatoSpecification;
+import team5.BW_CMR.specifications.FatturaStatoSpecification;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.UUID;
 
 @Service

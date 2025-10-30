@@ -1,5 +1,5 @@
 
-package team5.BW_CMR.specification;
+package team5.BW_CMR.specifications;
 
 import jakarta.persistence.criteria.*;
 import org.springframework.data.jpa.domain.Specification;
