@@ -2,6 +2,7 @@ package team5.BW_CMR.runners;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import team5.BW_CMR.entities.Comune;
 import team5.BW_CMR.entities.Provincia;
@@ -31,7 +32,9 @@ public class csvUploaderRunner implements CommandLineRunner {
     @Autowired
     private UtenteService utenteService;
     @Autowired
-    private String password;
+    private String getPassword;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public void run(String... args) throws Exception {
@@ -119,8 +122,9 @@ public class csvUploaderRunner implements CommandLineRunner {
         }
 
         Ruolo admin = ruoloService.getRuoloById(2);
+        System.out.println("getPassword " + getPassword);
         if (!utenteService.existsByRuolo(admin)) {
-            UtenteDTO utente = new UtenteDTO("aldo", "email@email.com", password, "aldo", "baglio");
+            UtenteDTO utente = new UtenteDTO("aldo", "email@email.com", getPassword, "aldo", "baglio");
             Utente newUtente = utenteService.salvaUtente(utente);
             utenteService.promuoviAdmin(newUtente.getId());
             System.out.println("Utente admin salvato!");
