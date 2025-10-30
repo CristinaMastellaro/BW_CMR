@@ -4,7 +4,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import { useState, useEffect } from "react";
 
 const Clienti = () => {
-  const [Clienti, setClienti] = useState([]);
+  const [clienti, setClienti] = useState([]);
 
   const token = localStorage.getItem("token");
 
@@ -26,7 +26,8 @@ const Clienti = () => {
         }
       })
       .then((data) => {
-        setClienti(data || []);
+        console.log("data", data);
+        setClienti(data.content || []);
       })
       .catch((err) => {
         console.error("Errore:", err);
@@ -40,17 +41,21 @@ const Clienti = () => {
     <>
       <Container>
         <Row className="justify-content-center mt-5">
-          <Card style={{ width: "18rem" }}>
-            <Card.Img variant="top" src="holder.js/100px180" />
-            <Card.Body>
-              <Card.Title>Card Title</Card.Title>
-              <Card.Text>
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content.
-              </Card.Text>
-              <Button variant="primary">Go somewhere</Button>
-            </Card.Body>
-          </Card>
+          {clienti.map((cliente) => (
+            <Col key={cliente.id} xs={5}>
+              <Card>
+                <Card.Img variant="top" src={cliente.logoAziendale} />
+                <Card.Body>
+                  <Card.Title>{cliente.nomeContatto}</Card.Title>
+                  <Card.Text>{cliente.ragioneSociale}</Card.Text>
+                  <Card.Text>
+                    Email:{cliente.email}, Fatturato Annuale:{" "}
+                    {cliente.fatturatoAnnuale}
+                  </Card.Text>
+                </Card.Body>
+              </Card>
+            </Col>
+          ))}
         </Row>
       </Container>
     </>
