@@ -2,6 +2,7 @@ package team5.BW_CMR.controllers;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -108,6 +109,8 @@ public class ClienteController {
         return clienteService.findAllOrderByProvincia(page, size);
     }*/
 
+
+    //FILTRA
     @GetMapping("/cerca")
     @PreAuthorize("hasAnyRole('ADMIN','USER')")
     public Page<Cliente> cercaClienti(@RequestParam(required = false) String nomeContatto, @RequestParam(required = false) Double fatturato, @RequestParam(required = false) String dataInserimento, @RequestParam(required = false) String dataUltimoContatto, @RequestParam(required = false) String provincia, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String sortBy
@@ -115,9 +118,16 @@ public class ClienteController {
         LocalDate dataIns = dataInserimento != null ? LocalDate.parse(dataInserimento) : null;
         LocalDate dataUlt = dataUltimoContatto != null ? LocalDate.parse(dataUltimoContatto) : null;
 
-        return clienteService.findAllWithFilters(nomeContatto, fatturato, dataIns, dataUlt, provincia, page, size, sortBy);
+        return clienteService.cercaPerFiltro(nomeContatto, fatturato, dataIns, dataUlt, provincia, page, size, sortBy);
     }
 
+
+    //ORDINA
+    @GetMapping("/ordina")
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
+    public Page<Cliente> ordinaClienti(@RequestParam String criterio, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+        return clienteService.ordinaPerCriterio(criterio, page, size);
+    }
 
     //PATCH LOGO
     @PatchMapping("/{id}/upload")

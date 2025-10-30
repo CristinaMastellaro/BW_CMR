@@ -61,6 +61,7 @@ public class ClienteSpecifications {
                 return builder.conjunction();
             }
             Join<Cliente, Indirizzo> indirizzoJoin = root.join("indirizzoLegale");
+            //JOIN SERVE A CAMBIARE LA ROOT ES. Cliente.indirizzoLegale -> prendo INDIRIZZO poi Indirizzo.comune  -> prendo COMUNE poi Comune.provincia
             Join<Indirizzo, Comune> comuneJoin = indirizzoJoin.join("comune");
             Join<Comune, Provincia> provinciaJoin = comuneJoin.join("provincia");
 
@@ -69,4 +70,41 @@ public class ClienteSpecifications {
         };
     }
 
+    public static Specification<Cliente> ordinaDataUltimoContatto() {
+        return (root, query, builder) -> {
+            query.orderBy(builder.desc(root.get("dataUltimoContatto")));
+            return null;
+        };
+    }
+
+    public static Specification<Cliente> ordinaDataInserimento() {
+        return (root, query, builder) -> {
+            query.orderBy(builder.desc(root.get("dataInserimento")));
+            return null;
+        };
+    }
+
+    public static Specification<Cliente> ordinaFatturatoAnnuale() {
+        return (root, query, builder) -> {
+            query.orderBy(builder.desc(root.get("fatturatoAnnuale")));
+            return null;
+        };
+    }
+
+    public static Specification<Cliente> ordinaProvinciaIndirizzoLegale() {
+        return (root, query, builder) -> {
+            Join<Cliente, Indirizzo> indirizzoJoin = root.join("indirizzoLegale");
+            Join<Indirizzo, Comune> comuneJoin = indirizzoJoin.join("comune");
+            Join<Comune, Provincia> provinciaJoin = comuneJoin.join("provincia");
+            query.orderBy(builder.desc(provinciaJoin.get("provincia")));
+            return null;
+        };
+    }
+
+    public static Specification<Cliente> ordinaNomeContatto() {
+        return (root, query, builder) -> {
+            query.orderBy(builder.desc(root.get("nomeContatto")));
+            return null;
+        };
+    }
 }

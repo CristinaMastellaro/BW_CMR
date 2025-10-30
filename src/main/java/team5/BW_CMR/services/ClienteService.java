@@ -163,7 +163,8 @@ public class ClienteService {
         return  clienteRepository.ordinaPerProvincia(pageable);
     }*/
 
-    public Page<Cliente> findAllWithFilters(
+    //FILTRA
+    public Page<Cliente> cercaPerFiltro(
             String nomeContatto,
             Double fatturato,
             LocalDate dataInserimento,
@@ -195,6 +196,32 @@ public class ClienteService {
         return clienteRepository.findAll(spec, pageable);
     }
 
+    //ORDINA
+    public Page<Cliente> ordinaPerCriterio(String criterio, int page, int size) {
+        if (size > 50) size = 50;
+        Specification<Cliente> spec;
+        switch (criterio.toLowerCase()) {
+            case "dataultimocontatto":
+                spec = ClienteSpecifications.ordinaDataUltimoContatto();
+                break;
+            case "datainserimento":
+                spec = ClienteSpecifications.ordinaDataInserimento();
+                break;
+            case "fatturatoannuale":
+                spec = ClienteSpecifications.ordinaFatturatoAnnuale();
+                break;
+            case "provincia":
+                spec = ClienteSpecifications.ordinaProvinciaIndirizzoLegale();
+                break;
+            case "nomecontatto":
+                spec = ClienteSpecifications.ordinaNomeContatto();
+                break;
+            default:
+                throw new BadRequestException("Criterio di ordinamento non valido!");
+        }
+        Pageable pageable = PageRequest.of(page, size);
+        return clienteRepository.findAll(spec, pageable);
+    }
 
     //PATCH logo
     public Cliente uploadLogo(MultipartFile file, UUID id) {
