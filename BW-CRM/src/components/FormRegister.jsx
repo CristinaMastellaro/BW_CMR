@@ -10,7 +10,7 @@ const FormRegister = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
 
-  const [error, setError] = useState("");
+  const [error, setError] = useState([]);
   const [alert, setAlert] = useState(false);
 
   const navigate = useNavigate();
@@ -27,16 +27,23 @@ const FormRegister = () => {
         username: username,
         email: email,
         password: password,
-        firstName: firstName,
-        lastName: lastName,
+        firstname: firstName,
+        lastname: lastName,
       }),
     })
       .then((response) => {
         if (response.ok) {
           return response.json();
         } else {
-          console.log(response);
-          new Error("Error!");
+          const stringError = [];
+          const errori = response.json().then((data) => {
+            console.log(data.errors);
+          });
+
+          errori.forEach((e) => stringError.push(e));
+          setError(stringError);
+          console.log("string: " + stringError);
+          throw new Error("Error!");
         }
       })
       .catch(() => {
@@ -44,7 +51,7 @@ const FormRegister = () => {
         console.error;
       });
 
-    navigate("/login");
+    // navigate("/login");
   };
 
   return (
@@ -60,6 +67,7 @@ const FormRegister = () => {
                   placeholder="Enter username"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
+                  required
                 />
               </Form.Group>
 
@@ -70,6 +78,7 @@ const FormRegister = () => {
                   placeholder="Enter email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  required
                 />
               </Form.Group>
 
@@ -80,6 +89,7 @@ const FormRegister = () => {
                   placeholder="Password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  required
                 />
               </Form.Group>
 
@@ -90,6 +100,7 @@ const FormRegister = () => {
                   placeholder="Enter firstname"
                   value={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
+                  required
                 />
               </Form.Group>
 
@@ -100,6 +111,7 @@ const FormRegister = () => {
                   placeholder="Enter last name"
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
+                  required
                 />
               </Form.Group>
 
@@ -107,7 +119,7 @@ const FormRegister = () => {
                 Submit
               </Button>
             </Form>
-            {alert && <Alert variant="danger">{"ERRORE! " + error}</Alert>}
+            {alert && <Alert variant="danger">ERRORE! {error}</Alert>}
           </Col>
         </Row>
       </Container>

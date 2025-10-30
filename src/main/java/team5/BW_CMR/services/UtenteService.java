@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import team5.BW_CMR.entities.Ruolo;
 import team5.BW_CMR.entities.Utente;
 import team5.BW_CMR.exceptions.BadRequestException;
+import team5.BW_CMR.exceptions.ValidationException;
 import team5.BW_CMR.payloads.UtenteDTO;
 import team5.BW_CMR.repositories.RuoloRepository;
 import team5.BW_CMR.repositories.UtenteRepository;
@@ -42,6 +43,17 @@ public class UtenteService {
     //crea nuovo utente
     public Utente salvaUtente(UtenteDTO dto) {
         Ruolo ruolo = ruoloService.getRuoloById(1);
+
+        List<String> errors = new ArrayList<>();
+        if (utenteRepository.existsByEmail(dto.getEmail())) {
+            errors.add("Email gia in uso!");
+        }
+        if (utenteRepository.existsByUsername(dto.getUsername())) {
+            errors.add("Username già in uso!");
+        }
+
+        if (!errors.isEmpty()) throw new ValidationException(errors);
+
         Utente utente = new Utente(dto.getUsername(), dto.getEmail(), passwordEncoder.encode(dto.getPassword()), dto.getFirstname(), dto.getLastname(), ruolo);
         utenteRepository.save(utente);
         try {
@@ -49,7 +61,7 @@ public class UtenteService {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        return  utente;
+        return utente;
     }
 
 
