@@ -41,6 +41,25 @@ public class IndirizzoService {
         return iRepo.findAll();
     }
 
+    public Indirizzo updateIndirizzoById(UUID indirizzoId, IndirizzoDTO newInfo) {
+        Indirizzo indirizzoDaModificare = findIndirizzoById(indirizzoId);
+        if (indirizzoDaModificare.getComune().getDenominazioneComune().equals(newInfo.comune())) {
+            Comune comune = cServ.findComuneByDenominazione(newInfo.comune());
+            indirizzoDaModificare.setComune(comune);
+        }
+
+        indirizzoDaModificare.setVia(newInfo.via());
+        indirizzoDaModificare.setCivico(newInfo.civico());
+        indirizzoDaModificare.setCap(newInfo.cap());
+        indirizzoDaModificare.setLocalita(newInfo.localita());
+
+        iRepo.save(indirizzoDaModificare);
+
+        log.info("Indirizzo aggiornato correttamente");
+
+        return indirizzoDaModificare;
+    }
+
     public void deleteIndirizzo(UUID id) {
         Indirizzo indirizzo = findIndirizzoById(id);
 

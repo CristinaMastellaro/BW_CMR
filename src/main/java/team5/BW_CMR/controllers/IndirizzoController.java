@@ -40,6 +40,14 @@ public class IndirizzoController {
         return iServ.findAllAddresses();
     }
 
+    @PutMapping("/{indirizzoId}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public Indirizzo updateIndirizzo(@PathVariable UUID indirizzoId, @RequestBody @Validated IndirizzoDTO newInfo, BindingResult validation) {
+        if (validation.hasErrors())
+            throw new ValidationException(validation.getFieldErrors().stream().map(fL -> fL.getDefaultMessage()).toList());
+        return iServ.updateIndirizzoById(indirizzoId, newInfo);
+    }
+
     @DeleteMapping("/{indirizzoId}")
     @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
