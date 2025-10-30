@@ -37,3 +37,12 @@
 .text-pink {
   color: #ff69b4;
 }
+.pink-checkbox .form-check-input {
+  cursor: pointer;
+  border: 2px solid #fdc6be;
+}
+.pink-checkbox .form-check-input:checked {
+  background-color: #ff69b4 !important;
+  border-color: #ff69b4 !important;
+  box-shadow: 0 0 8px #ff69b4 !important;
+}

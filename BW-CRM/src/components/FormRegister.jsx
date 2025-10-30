@@ -2,7 +2,7 @@ import Button from "react-bootstrap/Button";
 import { Container, Row, Col, Form, Alert } from "react-bootstrap";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import pp from '../assets/pp.jpg'
+import pp from "../assets/pp.jpg";
 
 const FormRegister = () => {
   const [username, setUsername] = useState("");
@@ -55,14 +55,21 @@ const FormRegister = () => {
   return (
     <>
       <Container fluid className="p-5 font-nunito">
-        <Row className="text-center justify-content-center"><Col xs={8}>
-        <img className="w-100" src={pp}/></Col></Row>
+        <Row className="text-center justify-content-center">
+          <Col xs={8}>
+            <img className="w-100" src={pp} />
+          </Col>
+        </Row>
         <Row className="justify-content-center border-row p-2 pb-4">
-          <Col xs={10} className="text-center"><h1 className=" fw-bolder">Sign up!</h1></Col>
+          <Col xs={10} className="text-center">
+            <h1 className=" fw-bolder">Sign up!</h1>
+          </Col>
           <Col xs={10} md={6} className="bg-white">
             <Form onSubmit={saveForm}>
               <Form.Group className="mb-3" controlId="username">
-                <Form.Label className="fw-bolder text-pink">Username</Form.Label>
+                <Form.Label className="fw-bolder text-pink">
+                  Username
+                </Form.Label>
                 <Form.Control
                   type="text"
                   placeholder="Enter username"
@@ -84,7 +91,9 @@ const FormRegister = () => {
               </Form.Group>
 
               <Form.Group className="mb-3" controlId="formBasicPassword">
-                <Form.Label className="fw-bolder text-pink">Password</Form.Label>
+                <Form.Label className="fw-bolder text-pink">
+                  Password
+                </Form.Label>
                 <Form.Control
                   type="password"
                   placeholder="Password"
@@ -106,13 +115,23 @@ const FormRegister = () => {
               </Form.Group>
 
               <Form.Group className="mb-3" controlId="lastName">
-                <Form.Label className="fw-bolder text-pink">Last name</Form.Label>
+                <Form.Label className="fw-bolder text-pink">
+                  Last name
+                </Form.Label>
                 <Form.Control
                   type="text"
                   placeholder="Enter last name"
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
                   required
+                />
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="termsCheckbox">
+                <Form.Check
+                  type="checkbox"
+                  required
+                  label={ <p>Trust the <span className="text-pink fw-bold">Powerpuff</span> power!</p> }
+                  className="pink-checkbox"
                 />
               </Form.Group>
 
