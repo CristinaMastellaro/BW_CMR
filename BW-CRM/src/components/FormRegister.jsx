@@ -33,16 +33,15 @@ const FormRegister = () => {
     })
       .then((response) => {
         if (response.ok) {
+          navigate("/login");
           return response.json();
         } else {
-          const stringError = [];
-          const errori = response.json().then((data) => {
+          response.json().then((data) => {
+            const stringError = [];
+            data.errors.forEach((e) => stringError.push(e + " "));
             console.log(data.errors);
+            setError(stringError);
           });
-
-          errori.forEach((e) => stringError.push(e));
-          setError(stringError);
-          console.log("string: " + stringError);
           throw new Error("Error!");
         }
       })
@@ -50,8 +49,6 @@ const FormRegister = () => {
         setAlert(true);
         console.error;
       });
-
-    // navigate("/login");
   };
 
   return (
@@ -119,7 +116,11 @@ const FormRegister = () => {
                 Submit
               </Button>
             </Form>
-            {alert && <Alert variant="danger">ERRORE! {error}</Alert>}
+            {alert && (
+              <Alert variant="danger" className="mt-3">
+                ERRORE! {error}
+              </Alert>
+            )}
           </Col>
         </Row>
       </Container>
