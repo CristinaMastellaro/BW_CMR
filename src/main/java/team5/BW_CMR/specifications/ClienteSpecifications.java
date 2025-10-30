@@ -13,6 +13,13 @@ public class ClienteSpecifications {
 
     public static Specification<Cliente> nomeContattoContiene(String parteNome) {
         return (root, query, builder) -> {
+
+            // Specification è un modo per costruire query dinamiche usando Criteria
+            //Restituisce un oggetto Specification<Cliente e accetta parametro
+            // (root, query, builder) -> { ... };
+            //root (Root<Cliente>):l'entità su cui stai facendo la query
+            //query (CriteriaQuery<?>): la query che stai costruendo
+            //builder (CriteriaBuilder): è il costruttore che ti permette di creare condizioni -> like, equal, and, or
             if (parteNome == null || parteNome.isEmpty()) {
                 return builder.conjunction();
             }
