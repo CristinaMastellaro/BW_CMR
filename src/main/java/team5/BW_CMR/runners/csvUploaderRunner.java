@@ -122,7 +122,6 @@ public class csvUploaderRunner implements CommandLineRunner {
         }
 
         Ruolo admin = ruoloService.getRuoloById(2);
-        System.out.println("getPassword " + getPassword);
         if (!utenteService.existsByRuolo(admin)) {
             UtenteDTO utente = new UtenteDTO("aldo", "email@email.com", getPassword, "aldo", "baglio");
             Utente newUtente = utenteService.salvaUtente(utente);

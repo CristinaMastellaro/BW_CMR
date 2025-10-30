@@ -13,6 +13,7 @@ import team5.BW_CMR.exceptions.BadRequestException;
 import team5.BW_CMR.payloads.UtenteDTO;
 import team5.BW_CMR.repositories.RuoloRepository;
 import team5.BW_CMR.repositories.UtenteRepository;
+import team5.BW_CMR.tools.EmailSender;
 
 import java.io.IOException;
 import java.util.*;
@@ -35,20 +36,20 @@ public class UtenteService {
     private Cloudinary avtarUploader;
     @Autowired
     private RuoloRepository ruoloRepository;
+    @Autowired
+    private EmailSender emailSender;
 
     //crea nuovo utente
     public Utente salvaUtente(UtenteDTO dto) {
         Ruolo ruolo = ruoloService.getRuoloById(1);
         Utente utente = new Utente(dto.getUsername(), dto.getEmail(), passwordEncoder.encode(dto.getPassword()), dto.getFirstname(), dto.getLastname(), ruolo);
-//        utente.setUsername(dto.getUsername());
-//        utente.setEmail(dto.getEmail());
-//        utente.setPassword(passwordEncoder.encode(dto.getPassword()));
-//        utente.setFirstname(dto.getFirstname());
-//        utente.setLastname(dto.getLastname());
-        // utente.setAvatarUrl(dto.getAvatarUrl());
-
-
-        return utenteRepository.save(utente);
+        utenteRepository.save(utente);
+        try {
+            emailSender.sendRegistrationEmail(utente);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return  utente;
     }
 
 
