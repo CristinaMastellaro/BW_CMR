@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -11,9 +12,11 @@ import org.springframework.web.multipart.MultipartFile;
 import team5.BW_CMR.entities.Cliente;
 import team5.BW_CMR.exceptions.ValidationException;
 import team5.BW_CMR.payloads.ClienteDTO;
+import team5.BW_CMR.payloads.ClienteUpdateDTO;
 import team5.BW_CMR.services.ClienteService;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 @RestController
@@ -26,6 +29,7 @@ public class ClienteController {
     //POST
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasRole('ADMIN')")
     public Cliente save(@RequestBody @Validated ClienteDTO body, BindingResult validationResult) {
         if (validationResult.hasErrors()) {throw new ValidationException(validationResult.getFieldErrors().stream().map(fieldError -> fieldError.getDefaultMessage()).toList());
         }
@@ -33,25 +37,28 @@ public class ClienteController {
     }
     // GET ALL
     @GetMapping
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     public Page<Cliente> getAll(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue =  "id") String sortBy) {
         return clienteService.findAll(page, size, sortBy);
     }
 
     // GET SINGLE
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     public Cliente getById(@PathVariable UUID id) {
         return clienteService.findById(id);
     }
 
     // DELETE
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable UUID id) {
         clienteService.findByIdAndDelete(id);
     }
 
     //GET ALL = PARTE NOMECONTATTO
-    @GetMapping("/search")
+   /* @GetMapping("/search")
     public Page<Cliente> getByParteNomeContatto(@RequestParam String q, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "nomeContatto") String sortBy) {
         return clienteService.findByParteNomeContatto(q, page, size, sortBy);
     }
@@ -99,11 +106,33 @@ public class ClienteController {
     @GetMapping("/ordina/provincia")
     public Page<Cliente> ordinaPerProvincia(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
         return clienteService.findAllOrderByProvincia(page, size);
+    }*/
+
+    @GetMapping("/cerca")
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
+    public Page<Cliente> cercaClienti(@RequestParam(required = false) String nomeContatto, @RequestParam(required = false) Double fatturato, @RequestParam(required = false) String dataInserimento, @RequestParam(required = false) String dataUltimoContatto, @RequestParam(required = false) String provincia, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String sortBy
+    ) {
+        LocalDate dataIns = dataInserimento != null ? LocalDate.parse(dataInserimento) : null;
+        LocalDate dataUlt = dataUltimoContatto != null ? LocalDate.parse(dataUltimoContatto) : null;
+
+        return clienteService.findAllWithFilters(nomeContatto, fatturato, dataIns, dataUlt, provincia, page, size, sortBy);
     }
+
 
     //PATCH LOGO
     @PatchMapping("/{id}/upload")
+    @PreAuthorize("hasRole('ADMIN')")
     public Cliente uploadLogo(@PathVariable UUID id, @RequestParam("logoAziendale")MultipartFile file) throws IOException {
         return this.clienteService.uploadLogo(file, id);
+    }
+
+    //PUT
+    @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public Cliente update(@PathVariable UUID id, @RequestBody @Validated ClienteUpdateDTO body, BindingResult validationResult) {
+        if (validationResult.hasErrors()) {
+            throw new ValidationException(validationResult.getFieldErrors().stream().map(fieldError -> fieldError.getDefaultMessage()).toList());
+        }
+        return clienteService.update(body, id);
     }
 }

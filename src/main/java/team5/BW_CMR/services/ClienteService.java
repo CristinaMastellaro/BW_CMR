@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import team5.BW_CMR.entities.Cliente;
@@ -16,8 +17,10 @@ import team5.BW_CMR.exceptions.BadRequestException;
 import team5.BW_CMR.exceptions.NotFoundException;
 import team5.BW_CMR.exceptions.ValidationException;
 import team5.BW_CMR.payloads.ClienteDTO;
+import team5.BW_CMR.payloads.ClienteUpdateDTO;
 import team5.BW_CMR.repositories.ClienteRepository;
 import team5.BW_CMR.repositories.IndirizzoRepository;
+import team5.BW_CMR.specifications.ClienteSpecifications;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -106,7 +109,7 @@ public class ClienteService {
     }
 
     //FILTRA
-    public Page<Cliente> findByParteNomeContatto(String parteNome, int page, int size, String sortBy) {
+    /*public Page<Cliente> findByParteNomeContatto(String parteNome, int page, int size, String sortBy) {
         if (size > 50) size = 50;
         Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
         return clienteRepository.findByParteNomeContatto(parteNome, pageable);
@@ -158,6 +161,38 @@ public class ClienteService {
         if (size > 50) size = 50;
         Pageable pageable = PageRequest.of(page, size);
         return  clienteRepository.ordinaPerProvincia(pageable);
+    }*/
+
+    public Page<Cliente> findAllWithFilters(
+            String nomeContatto,
+            Double fatturato,
+            LocalDate dataInserimento,
+            LocalDate dataUltimoContatto,
+            String provincia,
+            int page,
+            int size,
+            String sortBy
+    ) {
+        if (size > 50) size = 50;
+        Specification<Cliente> spec = (root, query, builder) -> builder.conjunction();
+        if (nomeContatto != null && !nomeContatto.isEmpty()) {
+            spec = spec.and(ClienteSpecifications.nomeContattoContiene(nomeContatto));
+        }
+        if (fatturato != null) {
+            spec = spec.and(ClienteSpecifications.fatturatoUgualeA(fatturato));
+        }
+        if (dataInserimento != null) {
+            spec = spec.and(ClienteSpecifications.dataInserimentoUgualeA(dataInserimento));
+        }
+        if (dataUltimoContatto != null) {
+            spec = spec.and(ClienteSpecifications.dataUltimoContattoUgualeA(dataUltimoContatto));
+        }
+        if (provincia != null && !provincia.isEmpty()) {
+            spec = spec.and(ClienteSpecifications.provinciaUgualeA(provincia));
+        }
+
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, sortBy));
+        return clienteRepository.findAll(spec, pageable);
     }
 
 
@@ -179,6 +214,52 @@ public class ClienteService {
     }
 
 
+    //PUT
+    public Cliente update(ClienteUpdateDTO payload, UUID id) {
+        Cliente found = findById(id);
+        List<String> errors = new ArrayList<>();
+        if (!found.getEmail().equals(payload.email()) && clienteRepository.existsByEmail(payload.email())) {
+            errors.add("Email gia in uso!");
+        }
+        if (found.getPartitaIva() != Long.parseLong(payload.partitaIva()) &&
+                clienteRepository.existsByPartitaIva(Long.parseLong(payload.partitaIva()))) {
+            errors.add("Partita IVA già in uso!");
+        }
+        if (!found.getPec().equals(payload.pec()) && clienteRepository.existsByPec(payload.pec())) {
+            errors.add("Pec gia in uso!");
+        }
+        if (!found.getEmailContatto().equals(payload.emailContatto()) &&
+                clienteRepository.existsByEmailContatto(payload.emailContatto())) {
+            errors.add("Email del contatto gia in uso!");
+        }
+        if (found.getTelefonoContatto() != payload.telefonoContatto() &&
+                clienteRepository.existsByTelefonoContatto(payload.telefonoContatto())) {
+            errors.add("Numero telefono del contatto gia in uso!");
+        }
+        Indirizzo indirizzoLegale = indirizzoRepository.findById(payload.indirizzoLegaleId())
+                .orElseThrow(() -> new ValidationException(List.of("Indirizzo legale non trovato")));
+        Indirizzo indirizzoOperativo = indirizzoRepository.findById(payload.indirizzoOperativoId())
+                .orElseThrow(() -> new ValidationException(List.of("Indirizzo operativo non trovato")));
+        if (!errors.isEmpty()) {
+            throw new ValidationException(errors);
+        }
+       found.setPartitaIva(Long.parseLong(payload.partitaIva()));
+        found.setEmail( payload.email());
+        found.setRagioneSociale(payload.ragioneSociale());
+        found.setDataUltimoContatto(payload.dataUltimoContatto());
+        found.setFatturatoAnnuale(payload.fatturatoAnnuale());
+        found.setPec(payload.pec());
+        found.setTelefono( payload.telefono());
+        found.setEmailContatto(payload.emailContatto());
+        found.setNomeContatto(payload.nomeContatto());
+        found.setCognomeContatto(payload.cognomeContatto());
+        found.setTelefonoContatto(payload.telefonoContatto());
+        found.setIndirizzoLegale(indirizzoLegale);
+        found.setIndirizzoOperativo(indirizzoOperativo);
+
+        log.info("Cliente modificato con successo: ");
+        return clienteRepository.save(found);
+    }
 
 
 }
