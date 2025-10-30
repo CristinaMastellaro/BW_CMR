@@ -51,6 +51,8 @@ const Clienti = () => {
                   <Card.Text>
                     Email:{cliente.email}, Fatturato Annuale:{" "}
                     {cliente.fatturatoAnnuale}
+                    {cliente.partitaIva}
+                    {cliente.dataInserimento}
                   </Card.Text>
                 </Card.Body>
               </Card>
