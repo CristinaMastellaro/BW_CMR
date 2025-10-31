@@ -103,7 +103,7 @@ public class ClienteSpecifications {
 
     public static Specification<Cliente> ordinaNomeContatto() {
         return (root, query, builder) -> {
-            query.orderBy(builder.desc(root.get("nomeContatto")));
+            query.orderBy(builder.asc(root.get("nomeContatto")));
             return null;
         };
     }
