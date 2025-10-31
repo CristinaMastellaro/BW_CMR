@@ -89,3 +89,46 @@
   border-color: #39ff14 !important;
   box-shadow: 0 0 8px #39ff14, 0 0 15px rgba(57, 255, 20, 0.5) !important;
 }
+
+.border-row3 {
+  border-radius: 20px;
+  border: 2px solid #1424ff;
+  box-shadow: 0 0 15px #146eff, 0 0 30px rgba(20, 239, 255, 0.938),
+    0 0 45px rgba(57, 255, 20, 0.2);
+  background-color: rgba(20, 239, 255, 0.199);
+  z-index: 10 !important;
+  position: relative;
+}
+.btn-blue {
+  border-color: #1424ff !important;
+  box-shadow: 0 0 8px #146eff, 0 0 20px rgba(20, 177, 255, 0.4),
+    0 0 25px rgba(57, 255, 20, 0.2) !important;
+  background-color: rgba(20, 181, 255, 0.5) !important;
+  color: black !important;
+  transition: all 0.4s ease-in;
+}
+
+.btn-blue:hover {
+  background-color: #14d8ff !important;
+  color: black !important;
+  box-shadow: 0 0 15px #146eff, 0 0 20px rgba(20, 181, 255, 0.5),
+    0 0 25px rgba(20, 181, 255, 0.5), 0 0 100px rgba(20, 181, 255, 0.4) !important;
+  border-color: #1424ff !important;
+  font-weight: bold;
+}
+
+.text-blue {
+  color: #143bff !important;
+  text-shadow: 0 0 8px rgba(20, 181, 255, 0.5);
+}
+
+.blue-checkbox .form-check-input {
+  cursor: pointer;
+  border: 2px solid #1424ff;
+}
+
+.blue-checkbox .form-check-input:checked {
+  background-color: #14d8ff !important;
+  border-color: #1424ff !important;
+  box-shadow: 0 0 8px #146eff, 0 0 15px rgba(20, 181, 255, 0.5) !important;
+}
