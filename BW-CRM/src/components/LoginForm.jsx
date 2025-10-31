@@ -90,7 +90,7 @@ const LoginForm = () => {
           </Form>
           {alert && (
             <Alert variant="danger" className="mt-3">
-              ERRORE! {error}
+              Wrong credentials! {error}
             </Alert>
           )}
         </Col>

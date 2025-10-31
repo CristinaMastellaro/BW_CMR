@@ -1,5 +1,5 @@
 import Button from "react-bootstrap/Button";
-import { Container, Row, Col, Form, Alert } from "react-bootstrap";
+import { Container, Row, Col, Form, Alert, Spinner } from "react-bootstrap";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import pp from "../assets/pp.jpg";
@@ -10,6 +10,7 @@ const FormRegister = () => {
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [isLoading, setIsLoading] = useState(false)
 
   const [error, setError] = useState([]);
   const [alert, setAlert] = useState(false);
@@ -18,7 +19,7 @@ const FormRegister = () => {
 
   const saveForm = (e) => {
     e.preventDefault();
-
+setIsLoading(true);
     fetch("http://localhost:3001/auth/register", {
       method: "POST",
       headers: {
@@ -37,6 +38,7 @@ const FormRegister = () => {
           navigate("/login");
           return response.json();
         } else {
+          setIsLoading(false);
           response.json().then((data) => {
             const stringError = [];
             data.errors.forEach((e) => stringError.push(e + " "));
@@ -141,8 +143,12 @@ const FormRegister = () => {
             </Form>
             {alert && (
               <Alert variant="danger" className="mt-3">
-                ERRORE! {error}
+               {error}
               </Alert>
+            )}
+            {isLoading && (<>
+            <div className="text-center w-100 p-4">
+              <Spinner animation="grow" variant="dark" /> <Spinner animation="grow" variant="dark" /> <Spinner animation="grow" variant="dark" /></div></>
             )}
           </Col>
         </Row>
