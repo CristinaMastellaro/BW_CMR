@@ -259,20 +259,37 @@ const Clienti = () => {
             </Form>
           </Col>
         </Row>
-        <Row className="justify-content-center mt-5">
+        <Row className="justify-content-center mt-5 g-3 px-5 py-2">
+          <h1 className="text-center fw-bold">Clients</h1>
           {clienti.map((cliente) => (
-            <Col key={cliente.id} xs={5}>
-              <Card>
-                <Card.Img variant="top" src={cliente.logoAziendale} />
-                <Card.Body>
-                  <Card.Title>{cliente.nomeContatto}</Card.Title>
-                  <Card.Text>{cliente.ragioneSociale}</Card.Text>
-                  <Card.Text>
-                    Email:{cliente.email}, Annual turnover:{" "}
-                    {cliente.fatturatoAnnuale}
-                    {cliente.partitaIva}
-                    {cliente.dataInserimento}
+            <Col key={cliente.id} xs={12} md={4} lg={3}>
+              <Card className="py-2 " style={{"border-radius":"10px"}}>
+              
+                <Card.Body className="d-flex flex-column align-items-center">
+                  <div className="d-flex justify-content-start mb-3">
+              
+                  <Card.Img className="me-3 rounded-circle" style={{"width":"5rem", "height":"5rem"}} src={cliente.logoAziendale} />
+                  <div className="d-flex flex-column  justify-content-center">
+                  <Card.Title className="fs-3 fw-bold mb-0 mt-2">{cliente.nomeContatto}</Card.Title>
+                  <Card.Text className="mb-2 fs-5">{cliente.ragioneSociale}</Card.Text>
+                  </div>
+                  </div>
+                  <div>
+                  <Card.Text className="mb-0">
+                    Email: {cliente.email}
                   </Card.Text>
+                   <Card.Text className="mb-0">Annual Turnover: {cliente.fatturatoAnnuale}</Card.Text>
+                   <Card.Text className="mb-0">VAT Number: {cliente.partitaIva}</Card.Text>
+                   <Card.Text className="mb-0">Entry Date: {cliente.dataInserimento}</Card.Text>
+                   <Card.Text className="mb-0">Last Contact date: {cliente.dataUltimoContatto}</Card.Text>
+                   <Card.Text className="mb-0">PEC: {cliente.pec}</Card.Text>
+                   <Card.Text className="mb-0">Phone Number: {cliente.telefono}</Card.Text>
+                   <p className="mt-1 fs-5 mb-0 fw-bolder" >Contact</p>
+                   <Card.Text className="mb-0">Email: {cliente.emailContatto}</Card.Text>
+                   <Card.Text className="mb-0">Name: {cliente.nomeContatto}</Card.Text>
+                   <Card.Text className="mb-0">Surname: {cliente.cognomeContatto}</Card.Text>
+                   <Card.Text className="mb-0">Phone Number: {cliente.telefonoContatto}</Card.Text>
+                   </div>
                 </Card.Body>
               </Card>
             </Col>
