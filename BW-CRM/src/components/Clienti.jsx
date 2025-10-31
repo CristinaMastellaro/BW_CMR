@@ -346,6 +346,12 @@ const Clienti = () => {
                       <Card.Text className="mb-0">
                         Phone Number: {cliente.telefono}
                       </Card.Text>
+                      <Card.Text className="mb-0">
+                        Legal address: {cliente.indirizzoLegale.via}, {cliente.indirizzoLegale.civico}, {cliente.indirizzoLegale.comune.denominazioneComune}, {cliente.indirizzoLegale.comune.provincia.provincia}
+                      </Card.Text>
+                      <Card.Text className="mb-0">
+                        Esecutive address: {cliente.indirizzoOperativo.via}, {cliente.indirizzoOperativo.civico}, {cliente.indirizzoOperativo.comune.denominazioneComune}, {cliente.indirizzoOperativo.comune.provincia.provincia}
+                      </Card.Text>
                       <p className="mt-3 fs-5 mb-0 fw-bolder text-blue">
                         Contact
                       </p>
