@@ -8,7 +8,7 @@ const Clienti = () => {
   const [clienti, setClienti] = useState([]);
   const [criterio, setCriterio] = useState("");
   const [nomeContatto, setNomeContatto] = useState("");
-  const [fatturato, setFatturato] = useState();
+  const [fatturato, setFatturato] = useState(null);
   const [dataInserimento, setDataInserimento] = useState("");
   const [dataUltimoContatto, setDataUltimoContatto] = useState("");
   const [provincia, setProvincia] = useState("");
